@@ -14,6 +14,7 @@ echo.
 echo.
 
 echo Launching...
+set FLASK_ENV=development
 python -m cstermproj
 echo.
 echo.
