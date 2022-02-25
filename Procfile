@@ -1,1 +1,1 @@
-web: gunicorn cstermproj:flaskapp
+web: gunicorn cstermproj.herokulauncher:flaskapp
