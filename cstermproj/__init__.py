@@ -1,12 +1,23 @@
+from secrets import token_urlsafe
+
 from flask import Flask
-flaskapp = Flask(__name__)
 
-from .backend.database_interface import con
+from .frontend  import startup as start_front
+from .middleend import startup as start_middle
+from .backend   import startup as start_back
 
-@flaskapp.route("/")
-def index():
-	cur = con.cursor()
-	cur.execute("SELECT sqrt(2);")
+def startup():
+	flaskapp = Flask(
+		__name__,
+		static_url_path = "/",
+		static_folder   = "../static/",
+		template_folder = "../templates/"
+	)
 	
-	body = "extremely simple test<br>" + str(cur.fetchall())
-	return "<html><head><title>howdy</title></head><body>" + body + "</body></html>"
+	flaskapp.secret_key = token_urlsafe(16)
+	
+	start_front(flaskapp)
+	start_middle(flaskapp)
+	start_back()
+	
+	return flaskapp
