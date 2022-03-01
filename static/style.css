@@ -3,11 +3,16 @@
   padding: 0;
   border: 0;
   vertical-align: baseline;
+  box-sizing: border-box;
 }
 
 body{
   background: #CD5C5C;
   font-family: 'Rubik', sans-serif;
+}
+
+input, select, textarea{
+   font-family: 'Rubik', sans-serif;
 }
 
 .box{
@@ -29,7 +34,7 @@ body{
 
 button{
   cursor: pointer;
-  background:#CD5C5C;
+  background:#670707;
   width: 175px;
   padding: 10px 15px;
   color: #FFFFFF;
@@ -68,7 +73,7 @@ nav ul{
 nav ul li{
   display: inline-block;
   line-height: 80px;
-  margin: 0 5px; /* change spacing */
+  margin: 0 5px;
 }
 
 nav ul li a{
@@ -102,4 +107,27 @@ a.active, a:hover{
 
 .form-items{
   margin-bottom: 20px;
+}
+
+/* Splitting page */
+.column{
+  float: left;
+  padding-top: 30px;
+  padding-left: 50px;
+  height: 100vh;
+  overflow-y: scroll;
+}
+
+.left{
+  width: 40%;
+}
+
+.right{
+  width: 60%;
+}
+
+.row:after {
+  content: "";
+  display: table;
+  clear: both;
 }
