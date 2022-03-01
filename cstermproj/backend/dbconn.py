@@ -5,7 +5,7 @@ con = None
 
 def connect():
 	global con
-	con = psycopg2.connect(os.environ["DATABASE_URL"], sslmode="require")
+	con = psycopg2.connect(os.environ["DATABASE_URL"], sslmode = "require")
 
 def query(query, *args):
 	cur = con.cursor()

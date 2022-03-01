@@ -16,7 +16,7 @@ def setup(flaskapp):
 	@flaskapp.route("/login", methods = ["POST"])
 	def login_process():
 		data = flask.request.values
-		err_msg  = "Invalid userame or password!"
+		success = False
 		
 		if "username" in data and "password" in data:
 			username = data["username"]
@@ -29,7 +29,7 @@ def setup(flaskapp):
 					flask.session["user"] = username
 					flask.session["teacher"] = teacher_or_student
 					
-					err_msg = None
+					success = True
 		
-		flask.session["errmsg"] = err_msg
-		return flask.redirect("/app" if err_msg is None else "/login")
+		flask.session["errmsg"] = None if success else "Invalid username or password!"
+		return flask.redirect("/app" if success else "/login")
