@@ -85,6 +85,7 @@ nav ul li a{
   text-decoration: none;
 }
 
+
 /* When hovering over other pages */
 a.active, a:hover{
   text-decoration: underline;
@@ -112,7 +113,7 @@ a.active, a:hover{
 /* Splitting page */
 .column{
   float: left;
-  padding-top: 30px;
+  padding-top: 100px;
   padding-left: 50px;
   height: 100vh;
   overflow-y: scroll;
@@ -130,4 +131,14 @@ a.active, a:hover{
   content: "";
   display: table;
   clear: both;
+}
+
+.filter{
+  width: 85%;
+  background: #CD5C5C;
+  padding: 10px;
+  border-style: solid;
+  border-radius: 10px;
+  border-width: 1px;
+  padding-left: 20px;
 }
