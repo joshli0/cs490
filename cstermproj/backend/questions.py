@@ -64,6 +64,18 @@ def edit_question(id, title, description, difficulty, category, function_name, t
 	query("update CS490Proj.QuestionBank set Title = %s, Description = %s, Difficulty = %s, Category = %s, FunctionName = %s, TestCaseArgs = %s, TestCaseOutputs = %s where ID = %s", (title, description, difficulty, category, function_name, test_case_args, test_case_results, id))
 	commit()
 
+def get_question_function_name(id):
+	result = query("select FunctionName from CS490Proj.QuestionBank where ID = %s", (id, ))
+	
+	if len(result) == 1:
+		return result[0][0]
+
+def get_question_test_cases(id):
+	result = query("select TestCaseArgs, TestCaseOutputs from CS490Proj.QuestionBank where ID = %s", (id, ))
+	
+	if len(result) == 1:
+		return result[0]
+
 def delete_question(id):
 	query("delete from CS490Proj.QuestionBank where ID = %s", (id, ))
 	commit()

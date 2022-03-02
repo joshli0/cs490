@@ -78,3 +78,142 @@ def delete_test(name):
 	commit()
 	
 	return True
+
+def get_user_id(username):
+	response = query("select ID from CS490Proj.Users where Username = %s", (username, ))
+	return response[0][0]
+
+def get_all_responses():
+	return query("select WhichTest, WhichStudent from CS490Proj.TestResponses")
+
+def submit_test_response(name_or_id, student_name_or_id, responses):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("insert into CS490Proj.TestResponses values (%s, %s, %s, False, null, null, null, null, null, False)", (name_or_id, student_name_or_id, responses))
+	commit()
+
+def get_test_responses(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select TestResponses from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]
+
+def set_test_comments(name_or_id, student_name_or_id, comments_on_questions, comments_on_whole_test):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set InstructorComments = %s, CommentsOnWholeTest = %s where WhichTest = %s and WhichStudent = %s", (comments_on_questions, comments_on_whole_test, name_or_id, student_name_or_id))
+	commit()
+
+def get_test_comments(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select InstructorComments, CommentsOnWholeTest from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0]
+
+def set_test_manual_grades(name_or_id, student_name_or_id, manual_grades):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set InstructorGrades = %s where WhichTest = %s and WhichStudent = %s", (manual_grades, name_or_id, student_name_or_id))
+	commit()
+
+def get_test_manual_grades(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select InstructorGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]
+
+def set_test_grades_released(name_or_id, student_name_or_id, released):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set ResultsReleased = %s where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	commit()
+
+def get_test_grades_released(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select ResultsReleased from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]
+
+def set_test_auto_grades(name_or_id, student_name_or_id, auto_grades):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set AutoGraderGrades = %s, AutoGraderRun = True where WhichTest = %s and WhichStudent = %s", (manual_grades, name_or_id, student_name_or_id))
+	commit()
+
+def get_test_auto_grades(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select AutoGraderGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]
+
+def set_test_case_outputs(name_or_id, student_name_or_id, test_case_outputs):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set TestCaseOutputsActual = %s where WhichTest = %s and WhichStudent = %s", (test_case_outputs, name_or_id, student_name_or_id))
+	commit()
+
+def get_test_case_outputs(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select TestCaseOutputsActual from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]
