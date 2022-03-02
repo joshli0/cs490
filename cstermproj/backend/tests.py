@@ -78,3 +78,35 @@ def delete_test(name):
 	commit()
 	
 	return True
+
+def get_user_id(username):
+	response = query("select ID from CS490Proj.Users where Username = %s", (username, ))
+	return response[0][0]
+
+def submit_test_response(name_or_id, username, responses):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	query("insert into CS490Proj.TestResponses values (%s, %s, %s, False, null, null, null, null, null, False)", (name_or_id, get_user_id(username), responses))
+	commit()
+
+def set_test_comments(name_or_id, student_name, comments_on_questions, comments_on_whole_test):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	query("update CS490Proj.TestResponses set InstructorComments = %s, CommentsOnWholeTest = %s where WhichTest = %s and WhichStudent = %s", (comments_on_questions, comments_on_whole_test, name_or_id, get_user_id(student_name)))
+	commit()
+
+def set_test_manual_grades(name_or_id, student_name, manual_grades):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	query("update CS490Proj.TestResponses set InstructorGrades = %s where WhichTest = %s and WhichStudent = %s", (manual_grades, name_or_id, get_user_id(student_name)))
+	commit()
+
+def set_test_grades_released(name_or_id, student_name, released):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	query("update CS490Proj.TestResponses set ResultsReleased = %s where WhichTest = %s and WhichStudent = %s", (released, name_or_id, get_user_id(student_name)))
+	commit()
