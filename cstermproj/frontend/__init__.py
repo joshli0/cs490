@@ -1,9 +1,7 @@
 import flask
 from .login import setup as setup_login
 from .landing import landing
-from .manage_questions import manage_questions
-from .manage_exams import manage_exams
-from .grade_exams import grade_exams
+from .nav import *
 
 def startup(flaskapp):
 	setup_login(flaskapp)
@@ -26,6 +24,10 @@ def startup(flaskapp):
 			return manage_exams()
 		elif page == "grade_exams":
 			return grade_exams()
+		elif page == "take_exam":
+			return take_exam()
+		elif page == "view_results":
+			return view_results()
 		else:
 			return flask.redirect("/app")
 
