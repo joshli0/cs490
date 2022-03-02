@@ -16,6 +16,10 @@ def rename_difficulty(old_name, new_name):
 	query("update CS490Proj.Difficulties set Name = %s where Name = %s", (new_name, old_name))
 	commit()
 
+def can_delete_difficulty(name):
+	questions = query("select ID from CS490Proj.QuestionBank where Difficulty = %s", (name, ))
+	return len(questions) == 0
+
 def get_categories():
 	results = query("select * from CS490Proj.QuestionCategories")
 	return [ r[0] for r in results ]
@@ -27,6 +31,10 @@ def add_category(name):
 def delete_category(name):
 	query("delete from CS490Proj.QuestionCategories where Name = %s", (name, ))
 	commit()
+
+def can_delete_category(name):
+	questions = query("select ID from CS490Proj.QuestionBank where Category = %s", (name, ))
+	return len(questions) == 0
 
 def rename_category(old_name, new_name):
 	query("update CS490Proj.QuestionCategories set Name = %s where Name = %s", (new_name, old_name))
@@ -56,3 +64,7 @@ def edit_question(id, title, description, difficulty, category, function_name, t
 def delete_question(id):
 	query("delete from CS490Proj.QuestionBank where ID = %s", (id, ))
 	commit()
+
+def can_delete_question(id):
+	tests = query("select ID from CS490Proj.Tests where QuestionsInOrder @> array(values (%s))", (id, ))
+	return len(tests) == 0
