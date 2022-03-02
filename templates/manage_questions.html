@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title>Manage Questions</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+  <link rel='stylesheet' href="./style.css">
+</head>
+
+<body>
+	<nav>
+    <label class="logo">Manage Questions</label>
+    <ul>
+      <li><a href="./teacher.html">Home</a></li>
+			<li><a href="./manage_questions.html">Manage Questions</a></li>
+			<li><a href="./manage_exams">Manage Exams</a></li>
+			<li><a href="./grade_exams.html">Grade Exams</a></li>
+			<li><a href="./logout">Log Out</a>
+    </ul>
+	</nav>
+
+	<!-- Create/Edit Questions -->
+	<div class="row">
+		 <div class="column left" style="background-color:#DFDFDF;">
+		   <h2>Create Question</h2></br>
+		    <form action="/manage_questions" method="POST">
+
+					<h3><label for="q_title">Title:</label></h3>
+					<input type="text" name="q_title" size=55 required></br>
+					<br>
+
+		      <h3><label for="q_description">Description:</label></h3>
+					<textarea name="q_description" rows=8 cols=55 required></textarea></br>
+					</br>
+
+					<h3><label for="q_category">Category:</label></h3>
+					<select name="q_category" required>
+			       <!-- get values from middle-end -->
+						{% for c in QuestionCategories %}
+							<option value={{c[0]}}>{{c[1]}}</option>
+						{% endfor %}
+	      	</select></br>
+					</br>
+
+					<h3><label for="q_difficulty">Difficulty:</label></h3>
+					<select name="q_difficulty" required>
+			       <!-- get values from middle-end -->
+						{% for d in Difficulties %}
+							<option value={{d[0]}}>{{d[1]}}</option>
+						{% endfor %}
+	      	</select></br></br>
+					</br>
+
+					<!-- test cases, fix later -->
+					<h3>Test Cases:</h3><p>(For multiple values, separate with a space)</p>
+					</br>
+					<h4><label for="test_case1">Test Case 1</label></h4>
+					<label for="test_input1">Input:</br>
+					<input type="text" name="test_input1" required></br>
+					<label for="test_output1">Output:</br>
+					<input type="text" name="test_output1" required></br>
+					</br>
+					<h4><label for="test_case2">Test Case 2</label></h4>
+				  <label for="test_input2">Input:</br>
+					<input type="text" name="test_input2"></br>
+					<label for="test_output2">Output:</br>
+					<input type="text" name="test_output2"></br></br>
+					</br>
+
+					<button type="submit" id="question-submit">Add to Question Bank</button>
+
+		     </form>
+		  </div> <!-- end column left/Create Questions -->
+
+			<!-- Question Bank -->
+			 <div class="column right" style="background-color:#DFDFDF;">
+			   <h2>Question Bank</h2>
+			   <!-- pull/display questions from database -->
+			 </div> <!-- end column right/Question Bank -->
+
+		</div> <!-- end row -->
+
+	</body>
+
+</html>
