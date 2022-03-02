@@ -44,6 +44,9 @@ def get_question_ids():
 	results = query("select ID from CS490Proj.QuestionBank")
 	return [ r[0] for r in results ]
 
+def does_question_exist(id):
+	return id in get_question_ids()
+
 def get_question_titles():
 	return query("select ID, Title from CS490Proj.QuestionBank", as_dict = True)
 
