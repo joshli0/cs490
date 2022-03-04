@@ -71,7 +71,7 @@ def get_question_function_name(id):
 		return result[0][0]
 
 def get_question_test_cases(id):
-	result = query("select TestCaseArgs, TestCaseOutputs from CS490Proj.QuestionBank where ID = %s", (id, ))
+	result = query("select TestCaseArgs::text[], TestCaseOutputs::text[] from CS490Proj.QuestionBank where ID = %s", (id, ))
 	
 	if len(result) == 1:
 		return result[0]
