@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<title>Exams</title>
+    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+    <link rel='stylesheet' href="./style.css">
+		<script src="./script.js"></script>
+	</head>
+
+  <body>
+		<nav>
+      <label class="logo">Exams</label>
+      <ul>
+				<li><a href="./app?page=landing">Home</a></li>
+				<li><a href="./app?page=exam_list">Exam List</a></li>
+				<li><a href="./app?page=view_results">View Results</a></li>
+				<li><a href="./logout">Log Out</a>
+      </ul>
+    </nav>
+
+<!-- Exam List ---------------------------------------------------------------->
+	<div class="full-page-box">
+		<table class="viewExam" style="width:800px;">
+			<colgroup>
+				<col span="1" style="width:75%;">
+			</colgroup>
+				<tr>
+					<h2><th>Title</th></h2>
+					<th></th>
+				</tr>
+				<td>title</td>  <!-- delete later -->
+				<td><a href="./app?page=take_exam"><button type="button" id="takeExam">Take Exam</button></a></td>
+					{% for exam in examList %}
+					<tr>
+						<td>{{ exam.exam_title }}</td> <!-- CONFIRM, value here? -->
+						<td><a href="./app?page=take_exam"><button type="button" id="takeExam">Take Exam</button></a></td>
+						<!-- fix button to guide to correct exam -->
+					</tr>
+					{% endfor %}
+		</table>
+
+	</div> <!-- end page box -->
+
+  </body>
+
+</html>

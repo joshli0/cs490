@@ -11,9 +11,18 @@ def manage_exams():
 def grade_exams():
     return flask.render_template("grade_exams.html")
 
+def review_exam():
+	return flask.render_template("review_exam.html")
+
 # Student pages
-def take_exam():
-    return flask.render_template("take_exam.html")
+def exam_list():
+    return flask.render_template("exam_list.html")
 
 def view_results():
     return flask.render_template("view_results.html")
+
+def take_exam():
+    return flask.render_template("take_exam.html")
+
+def results():
+    return flask.render_template("results.html")

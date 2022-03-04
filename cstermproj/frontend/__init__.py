@@ -24,10 +24,16 @@ def startup(flaskapp):
 			return manage_exams()
 		elif page == "grade_exams":
 			return grade_exams()
-		elif page == "take_exam":
-			return take_exam()
+		elif page == "review_exam":
+			return review_exam()
+		elif page == "exam_list":
+			return exam_list()
 		elif page == "view_results":
 			return view_results()
+		elif page == "take_exam":
+			return take_exam()
+		elif page == "results":
+			return results()
 		else:
 			return flask.redirect("/app")
 
