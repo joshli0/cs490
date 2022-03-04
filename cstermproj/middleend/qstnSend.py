@@ -2,7 +2,6 @@ import flask
 from ..backend.questions import *
 
 def send(app):
-
     #create question
     @app.route('/create_question', methods = ('GET', 'POST'))
     def createQuestion():
@@ -20,7 +19,7 @@ def send(app):
             test_case_args = data['test_case_args']
             test_case_results = data['test_case_results']
 
-            create_question(title, description, difficulty, category,
+            return create_question(title, description, difficulty, category,
             function_name, test_case_args, test_case_results)
 
     #edit question
@@ -41,7 +40,7 @@ def send(app):
             test_case_args = data['test_case_args']
             test_case_results = data['test_case_results']
 
-            edit_question(id, title, description, difficulty, category,
+            return edit_question(id, title, description, difficulty, category,
             function_name, test_case_args, test_case_results)
 
     #delete question
@@ -51,7 +50,7 @@ def send(app):
         if 'id' in data:
             id = data['id']
 
-            delete_question(id)
+            return delete_question(id)
 
     #add difficulty
     @app.route('/add_difficulty', methods = ('GET', 'POST'))
@@ -60,7 +59,7 @@ def send(app):
         if 'name' in data:
             name = data['name']
 
-            add_difficulty(name)
+            return add_difficulty(name)
 
     #delete difficulty
     @app.route('/delete_difficulty', methods = ('GET', 'POST'))
@@ -69,7 +68,7 @@ def send(app):
         if 'name' in data:
             name = data['name']
 
-            delete_difficulty(name)
+            return delete_difficulty(name)
 
     #rename difficulty
     @app.route('/rename_difficulty', methods = ('GET', 'POST'))
@@ -79,7 +78,7 @@ def send(app):
             old_name = data['old_name']
             new_name = data['new_name']
 
-            rename_difficulty(old_name, new_name)
+            return rename_difficulty(old_name, new_name)
 
     #add category
     @app.route('/add_category', methods = ('GET', 'POST'))
@@ -88,7 +87,7 @@ def send(app):
         if 'name' in data:
             name = data['name']
 
-            add_difficulty(name)
+            return add_category(name)
 
     #delete category
     @app.route('/delete_category', methods = ('GET', 'POST'))
@@ -97,7 +96,7 @@ def send(app):
         if 'name' in data:
             name = data['name']
 
-            delete_category(name)
+            return delete_category(name)
 
     #rename category
     @app.route('/rename_category', methods = ('GET', 'POST'))
@@ -107,80 +106,52 @@ def send(app):
             old_name = data['old_name']
             new_name = data['new_name']
 
-            rename_category(old_name, new_name)
+            return rename_category(old_name, new_name)
 
-    #get difficulty
-    @app.route('/get_difficulty', methods = ('GET', 'POST'))
-    def getDiff():
-        get_difficulties()
+#can delete difficulty
+def canDeleteDiff(name):
+        return can_delete_difficulty(name)
 
-    #can delete difficulty
-    @app.route('/can_delete_difficulty', methods = ('GET', 'POST'))
-    def canDeleteDiff():
-        data = flask.request.values
-        if 'name' in data:
-            name = data['name']
-            can_delete_difficulty(name)
+#can delete category
+def canDeleteCat(name):
+        return can_delete_category(name)
 
-    #get categories
-    @app.route('/get_categories', methods = ('GET', 'POST'))
-    def getCat():
-        get_categories()
+#does question exist
+def doesQuestionExist(id):
+        return does_question_exist(id)
 
-    #can delete category
-    @app.route('/can_delete_category', methods = ('GET', 'POST'))
-    def canDeleteCat():
-        data = flask.request.values
-        if 'name' in data:
-            name = data['name']
-            can_delete_category(name)
+#get question
+def getQuestion(id):
+        return get_question(id)
 
-    #get question ids
-    @app.route('/get_question_ids', methods = ('GET', 'POST'))
-    def getQuestionIDS():
-        get_question_ids()
-    
-    #does question exist
-    @app.route('/does_question_exist', methods = ('GET', 'POST'))
-    def doesQuestionExist():
-        data = flask.request.values
-        if 'id' in data:
-            id = data['id']
-            does_question_exist(id)
-    
-    #get question titles
-    @app.route('/get_question_titles', methods = ('GET', 'POST'))
-    def getQuestionTitles():
-        get_question_titles()
-    
-    #get question
-    @app.route('/get_question', methods = ('GET', 'POST'))
-    def getQuestion():
-        data = flask.request.values
-        if 'id' in data:
-            id = data['id']
-            get_question(id)
+#get question function name
+def getQuestionFunctionName(id):
+        return get_question_function_name(id)
 
-    #get question function name
-    @app.route('/get_question_function_name', methods = ('GET', 'POST'))
-    def getQuestionFunctionName():
-        data = flask.request.values
-        if 'id' in data:
-            id = data['id']
-            get_question_function_name(id)
+#get question test cases
+def getQuestionTestCases(id):
+        return get_question_test_cases(id)
 
-    #get question test cases
-    @app.route('/get_question_test_cases', methods = ('GET', 'POST'))
-    def getQuestionTestCases():
-        data = flask.request.values
-        if 'id' in data:
-            id = data['id']
-            get_question_test_cases(id)
+#can delete question
+def canDeleteQuestion(id):
+        return can_delete_question(id)
 
-    #can delete question
-    @app.route('/can_delete_question', methods = ('GET', 'POST'))
-    def canDeleteQuestion():
-        data = flask.request.values
-        if 'id' in data:
-            id = data['id']
-            can_delete_question(id)
+#get question difficulties
+def getDiff():
+    return get_difficulties()
+
+#get question categories
+def getCat():
+    return get_categories()
+
+#get question ids
+def getQuestionIDS():
+    return get_question_ids()
+
+#get question titles
+def getQuestionTitles():
+    return get_question_titles()
+
+#get all questions
+def getAllQuestions():
+    return get_all_questions()
