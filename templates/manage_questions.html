@@ -5,6 +5,7 @@
 	<title>Manage Questions</title>
   <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
   <link rel='stylesheet' href="./style.css">
+	<script src="./script.js"></script>
 </head>
 
 <body>
@@ -19,67 +20,124 @@
     </ul>
 	</nav>
 
-	<!-- Create/Edit Questions -->
+<!-- Create Question ---------------------------------------------------------->
 	<div class="row">
 		 <div class="column left" style="background-color:#DFDFDF;">
 		   <h2>Create Question</h2></br>
-		    <form action="/manage_questions" method="POST">
+			 <div class="greybox">
 
-					<h3><label for="q_title">Title:</label></h3>
-					<input type="text" name="q_title" size=55 required></br>
+		    <form action="/create_question" id="questionForm" method="POST"> <!-- CONFIRM, form action -->
+
+					<h3><label for="title">Title:</label></h3>
+					<input type="text" name="title" size=60 required></br>
 					<br>
 
-		      <h3><label for="q_description">Description:</label></h3>
-					<textarea name="q_description" rows=8 cols=55 required></textarea></br>
+		      <h3><label for="description">Description:</label></h3>
+					<textarea name="description" rows=8 cols=60 required></textarea></br>
 					</br>
 
-					<h3><label for="q_category">Category:</label></h3>
-					<select name="q_category" required>
-			       <!-- get values from middle-end -->
-						{% for c in QuestionCategories %}
-							<option value={{c[0]}}>{{c[1]}}</option>
+					<h3><label for="category">Category:</label></h3>
+					<select name="category" style="width:150px" required>
+						{% for c in QuestionCategories %} <!-- CONFIRM, get values using jinja? -->
+							<option value="{{ c }}"</option>
 						{% endfor %}
 	      	</select></br>
 					</br>
 
-					<h3><label for="q_difficulty">Difficulty:</label></h3>
-					<select name="q_difficulty" required>
-			       <!-- get values from middle-end -->
-						{% for d in Difficulties %}
-							<option value={{d[0]}}>{{d[1]}}</option>
+					<h3><label for="difficulty">Difficulty:</label></h3>
+					<select name="difficulty" style="width:150px" required>
+						{% for d in Difficulties %} <!-- CONFIRM, get values using jinja? -->
+							<option value="{{ d }}"</option>
 						{% endfor %}
-	      	</select></br></br>
+	      	</select></br>
 					</br>
 
-					<!-- test cases, fix later -->
-					<h3>Test Cases:</h3><p>(For multiple values, separate with a space)</p>
-					</br>
-					<h4><label for="test_case1">Test Case 1</label></h4>
-					<label for="test_input1">Input:</br>
-					<input type="text" name="test_input1" required></br>
-					<label for="test_output1">Output:</br>
-					<input type="text" name="test_output1" required></br>
-					</br>
-					<h4><label for="test_case2">Test Case 2</label></h4>
-				  <label for="test_input2">Input:</br>
-					<input type="text" name="test_input2"></br>
-					<label for="test_output2">Output:</br>
-					<input type="text" name="test_output2"></br></br>
-					</br>
+					<h3>Test Cases:</h3>(For multiple values, separate with a space)</br></br>
+					<div id="testCases"></div> <!-- displays form fields on click -->
+					<button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button></br>
 
-					<button type="submit" id="question-submit">Add to Question Bank</button>
+		  </div></br> <!-- end box -->
 
-		     </form>
-		  </div> <!-- end column left/Create Questions -->
+			<button type="submit" id="questionSubmit" class="longButton">Add to Question Bank</button></br></br>
 
-			<!-- Question Bank -->
+		</form> <!-- end of question creation -->
+
+		</div> <!-- end column left/Create Questions -->
+
+<!-- Question Bank ------------------------------------------------------------>
 			 <div class="column right" style="background-color:#DFDFDF;">
-			   <h2>Question Bank</h2>
-			   <!-- pull/display questions from database -->
-			 </div> <!-- end column right/Question Bank -->
+			  <h2>Question Bank</h2>
+			 	</br>
+<!-- ex. table/formatting, to be deleted later -->
+				<div class="greybox">
+				<table style="width:100%">
+					<colgroup>
+				  	<col span="1" style="width:150px";
+				  </colgroup>
+				  <tr>
+				     <th>Title</th>
+				     <td>Addition</td>
+				   </tr>
+				   <tr>
+				     <th>Description</th>
+				     <td>Given two numbers num1 and num2. Write a function called "sum" that finds the addition of these 2 numbers.</td>
+				   </tr>
+				   <tr>
+				     <th>Category</th>
+				     <td>-</td>
+				   </tr>
+				   <tr>
+				     <th>Difficulty</th>
+				     <td>Easy</td>
+				   </tr>
+				   <tr>
+				     <th>Test Cases</th>
+				     <td>sum(1,2) -> 3</br>sum(6,12) -> 18</td>
+				   </tr>
+				 </table>
+			 </br>
+<!-- displaying table for each question in bank -->
+ 				{% for q in QuestionBank %} <!-- CONFIRM, get values/fill table using jinja? -->
+					<table style="width:100%">
+	 					<colgroup>
+	 				  	<col span="1" style="width:150px";
+	 				  </colgroup>
+
+	 				  <tr>
+	 				  	<th>Title</th>
+	 				    <td>{{ q.title }}</td>
+	 				  </tr>
+
+	 				  <tr>
+	 				     <th>Description</th>
+	 				     <td>{{ q.description }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Category</th>
+	 				     <td>{{ q.category }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Difficulty</th>
+	 				     <td>{{ q.difficulty }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Test Cases</th>
+							 <td>
+							 {% for case in testcases %}
+								 	{{ case.test_case_args }} -> {{ case.test_case_results }}</br>
+							 {% endfor %}
+						 </td>
+	 				  </tr>
+					 </br>
+ 				 </table>
+				 {% endfor %} <!-- end table values -->
+
+			 </div></br> <!-- end box -->
+
+			</div> <!-- end column right/Question Bank -->
 
 		</div> <!-- end row -->
 
-	</body>
+</body>
 
 </html>

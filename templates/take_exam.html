@@ -5,6 +5,7 @@
 		<title>Take Exam</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel='stylesheet' href="./style.css">
+		<script src="./script.js"></script>
 	</head>
 
   <body>
@@ -12,10 +13,50 @@
       <label class="logo">Take Exam</label>
       <ul>
 				<li><a href="./app?page=landing">Home</a></li>
-				<li><a href="./app?page=take_exam">Take Exam</a></li>
+				<li><a href="./app?page=exam_list">Exam List</a></li>
 				<li><a href="./app?page=view_results">View Results</a></li>
 				<li><a href="./logout">Log Out</a>
       </ul>
     </nav>
+
+
+<!-- Display Exam ------------------------------------------------------------->
+	<div class="full-page-box">
+		<form id="exam" method="POST"> <!-- exam response -->
+			<table class="viewExam" style="width:80%;">
+					{% for question in testQuestions %}
+					<tr>
+						<th><h3>Question:</h3>{{ question.q_description }}</th>
+						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+					</tr>
+						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
+					</tr>
+					<tr>
+						<th><h3>Question:</h3>{{ question.q_description }}</th>
+						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+					</tr>
+						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
+					</tr>
+					<tr>
+						<th><h3>Question:</h3>{{ question.q_description }}</th>
+						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+					</tr>
+						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
+					</tr>
+					<tr>
+						<th><h3>Question:</h3>{{ question.q_description }}</th>
+						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+					</tr>
+						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
+					</tr>
+					{% endfor %}
+			</table></br></br>
+			<button type="submit" id="responseSubmit" class="longButton">Submit Exam</button></br></br></br>
+		</form> <!-- end exam responses -->
+    <h2>
+
+	</div> <!-- end page box -->
+
   </body>
+
 </html>

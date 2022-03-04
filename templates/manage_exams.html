@@ -1,82 +1,125 @@
 <!DOCTYPE html>
 <html>
 
-	<head>
-		<title>Manage Exams</title>
-    <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
-    <link rel='stylesheet' href="./style.css">
-	</head>
+<head>
+	<title>Manage Exams</title>
+  <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+  <link rel='stylesheet' href="./style.css">
+	<script src="./script.js"></script>
+</head>
 
-  <body>
-		<nav>
-      <label class="logo">Manage Exams</label>
-      <ul>
-				<li><a href="./app?page=landing">Home</a></li>
-				<li><a href="./app?page=manage_exams">Manage Exams</a></li>
-				<li><a href="./app?page=manage_questions">Manage Questions</a></li>
-				<li><a href="./app?page=manage_exams">Manage Exams</a></li>
-				<li><a href="./app?page=grade_exams">Grade Exams</a></li>
-				<li><a href="./logout">Log Out</a>
-      </ul>
-    </nav>
+<body>
+	<nav>
+    <label class="logo">Manage Exams</label>
+    <ul>
+			<li><a href="./app?page=landing">Home</a></li>
+			<li><a href="./app?page=manage_questions">Manage Questions</a></li>
+			<li><a href="./app?page=manage_exams">Manage Exams</a></li>
+			<li><a href="./app?page=grade_exams">Grade Exams</a></li>
+			<li><a href="./logout">Log Out</a>
+    </ul>
+  </nav>
 
-    <!-- Select Questions -->
-		<div class="row">
-		  <div class="column left" style="background-color:#DFDFDF;">
-		    <h2>Select Questions</h2></br>
-
-		      <form action="/manage_exams" method="POST">
-
-            <div class="filter">
-              <h4>Filter Questions</h4></br>
-
-              <label for="q_category">Category:</label>
-              <select name="q_category">
-                <option value="all">All</option>
-                <!-- get values from middle-end -->
-                {% for c in QuestionCategories %}
-                  <option value={{c[0]}}>{{c[1]}}</option>
-                {% endfor %}
-              </select></br>
-              </br>
-
-              <label for="q_difficulty">Difficulty:</label>
-              <select name="q_difficulty">
-                <option value="all">All</option>
-                <!-- get values from middle-end -->
-                {% for d in Difficulties %}
-                  <option value={{d[0]}}>{{d[1]}}</option>
-                {% endfor %}
-              </select></br>
-              </br>
-
-  						<button type="submit" id="apply-filter">Apply</button>
-
-            </div> <!-- end filter questions -->
-
-  		     </form>
-
-           </br></br><p>To do: Display question bank, each question with button to add to exam and appear on right.</p>
-
-		  	  </div> <!-- end column left/Select Questions -->
-
-				<!-- Create Exam -->
-			  <div class="column right" style="background-color:#DFDFDF;">
-			    <h2>Create Exam</h2></br>
-			    <!-- display questions from database? -->
-          <h3><label for="q_title">Title:</label></h3>
-					<input type="text" name="q_title" size=60 required></br>
+<!-- Create Exam -------------------------------------------------------------->
+	<div class="row">
+	  <div class="column left" style="background-color:#DFDFDF;">
+	    <h2>Create Exam</h2></br>
+			<form id=examForm method="POST"> <!-- Exam Form -->
+				<div class="greybox">
+	        <h3><label for="exam_title">Title:</label></h3>
+					<input type="text" name="exam_title" size=60 required></br>
 					<br>
 
-          <p>To do: Display questions added from question bank, can set point values here</p></br>
+					<h3><label for="exam_questions">Questions:</label></h3>
 
+					<div id="examQuestions"></div> <!-- call function -->
 
-          <button type="submit" id="exam-submit">Create Exam</button>
+				</div></br> <!-- end box -->
 
-			  </div> <!-- end column right/Create Exam -->
+	      <button type="submit" id="examSubmit" style="width:95%">Submit Exam</button></br></br>
 
-		</div> <!-- end row -->
+	  </div> <!-- end column left/Create Exam -->
+	</form> <!-- end Exam Form -->
 
-	</body>
+<!-- Question Bank ------------------------------------------------------------>
+		  <div class="column right" style="background-color:#DFDFDF;">
+		    <h2>Question Bank</h2></br>
+
+		      <form id="filterForm" method="POST"> <!-- would this need post? -->
+
+            <div class="filter">
+
+              <h3>Filter Questions</h3></br> <!-- filter questions -->
+
+              <label for="f_category">Category:</label>
+              <select name="f_category"> <!-- would name be same as the form to submit questions or something new? (ex. filter-category) -->
+                <option value="all">All</option>
+                {% for c in QuestionCategories %} <!-- CONFIRM, get values using jinja? -->
+                  <option value="{{ c }}"</option>
+                {% endfor %}
+              </select></br>
+              </br>
+
+              <label for="f_difficulty">Difficulty:</label>
+              <select name="f_difficulty">
+                <option value="all">All</option>
+                {% for d in Difficulties %} <!-- CONFIRM, get values using jinja? -->
+                  <option value="{{ d }}"</option>
+                {% endfor %}
+              </select></br>
+              </br>
+
+  						<button type="submit" id="applyFilter" onClick="applyFilter()">Apply</button>
+
+            </div></br>
+
+					</form> <!-- end filter questions -->
+
+<!-- Select Questions --------------------------------------------------------->
+					<h2>Select Questions</h2></br>
+					<div class="greybox">
+						<!-- displaying table for each question in bank -->
+		 				{% for q in QuestionBank %} <!-- CONFIRM, get values/fill table using jinja? -->
+							<table style="width:100%">
+			 					<colgroup>
+			 				  	<col span="1" style="width:150px";
+			 				  </colgroup>
+
+			 				  <tr>
+			 				  	<th>Title</th>
+			 				    <td>{{ q.q_title }}</td>
+			 				  </tr>
+
+			 				  <tr>
+			 				     <th>Description</th>
+			 				     <td>{{ q.q_description }}</td>
+			 				  </tr>
+			 				  <tr>
+			 				     <th>Category</th>
+			 				     <td>{{ q.q_category }}</td>
+			 				  </tr>
+			 				  <tr>
+			 				     <th>Difficulty</th>
+			 				     <td>{{ q.q_difficulty }}</td>
+			 				  </tr>
+			 				  <tr>
+			 				     <th>Test Cases</th>
+									 {% for case in testcases %}
+										 	<td>{{ case.testinput }} -> {{ case.testoutput }}</td>
+											</br>
+									 {% endfor %}
+			 				  </tr>
+							 </br>
+		 				 </table>
+						 <button type="button" id="addToExam" class="longButton" onClick="addToExam()">Add to Exam</button>
+						 {% endfor %} <!-- end table values -->
+
+				</div></br> <!-- end box -->
+
+		  </div> <!-- end column right/Create Exam -->
+
+	</div> <!-- end row -->
+
+</body>
 
 </html>
