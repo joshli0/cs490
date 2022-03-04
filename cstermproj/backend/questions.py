@@ -56,6 +56,9 @@ def get_question(id):
 	if results is not None and len(results) == 1:
 		return results[0]
 
+def get_all_questions():
+	return query("select * from CS490Proj.QuestionBank", as_dict = True)
+
 def create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results):
 	query("insert into CS490Proj.QuestionBank(Title, Description, Difficulty, Category, FunctionName, TestCaseArgs, TestCaseOutputs) values (%s, %s, %s, %s, %s, %s, %s)", (title, description, difficulty, category, function_name, test_case_args, test_case_results))
 	commit()
