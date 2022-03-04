@@ -2,7 +2,6 @@ import flask
 from ..backend.questions import *
 
 def send(app):
-
     #create question
     @app.route('/create_question', methods = ('GET', 'POST'))
     def createQuestion():
@@ -110,52 +109,31 @@ def send(app):
             return rename_category(old_name, new_name)
 
 #can delete difficulty
-def canDeleteDiff():
-    data = flask.request.values
-    if 'name' in data:
-        name = data['name']
+def canDeleteDiff(name):
         return can_delete_difficulty(name)
 
 #can delete category
-def canDeleteCat():
-    data = flask.request.values
-    if 'name' in data:
-        name = data['name']
+def canDeleteCat(name):
         return can_delete_category(name)
 
 #does question exist
-def doesQuestionExist():
-    data = flask.request.values
-    if 'id' in data:
-        id = data['id']
+def doesQuestionExist(id):
         return does_question_exist(id)
 
 #get question
-def getQuestion():
-    data = flask.request.values
-    if 'id' in data:
-        id = data['id']
+def getQuestion(id):
         return get_question(id)
 
 #get question function name
-def getQuestionFunctionName():
-    data = flask.request.values
-    if 'id' in data:
-        id = data['id']
+def getQuestionFunctionName(id):
         return get_question_function_name(id)
 
 #get question test cases
-def getQuestionTestCases():
-    data = flask.request.values
-    if 'id' in data:
-        id = data['id']
+def getQuestionTestCases(id):
         return get_question_test_cases(id)
 
 #can delete question
-def canDeleteQuestion():
-    data = flask.request.values
-    if 'id' in data:
-        id = data['id']
+def canDeleteQuestion(id):
         return can_delete_question(id)
 
 #get question difficulties
