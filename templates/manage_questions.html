@@ -26,7 +26,6 @@
 		   <h2>Create Question</h2></br>
 			 <div class="greybox">
 
-				<!-- CONFIRM, form action? -->
 		    <form action="/create_question" id="questionForm" method="POST">
 					<h3><label for="title">Title:</label></h3>
 					<input type="text" name="title" size=60 required></br>
@@ -38,16 +37,16 @@
 
 					<h3><label for="category">Category:</label></h3>
 					<select name="category" style="width:150px" required>
-						{% for c in getCat %} <!-- CONFIRM, get values using jinja? -->
-							<option value="{{ c }}"</option>
+						{% for c in categories %}
+							<option value="{{ c }}">{{ c }}</option>
 						{% endfor %}
 	      	</select></br>
 					</br>
 
 					<h3><label for="difficulty">Difficulty:</label></h3>
 					<select name="difficulty" style="width:150px" required>
-						{% for d in getDiff %} <!-- CONFIRM, get values using jinja? -->
-							<option value="{{ d }}"</option>
+						{% for d in difficulties %}
+							<option value="{{ d }}">{{ d }}</option>
 						{% endfor %}
 	      	</select></br>
 					</br>
@@ -66,38 +65,10 @@
 
 <!-- Question Bank ------------------------------------------------------------>
 			 <div class="column right" style="background-color:#DFDFDF;">
-			  <h2>Question Bank</h2>
-			 	</br>
-<!-- ex. table/formatting, to be deleted later -->
+			  <h2>Question Bank</h2></br>
+				<!-- displaying table for each question in bank -->
 				<div class="greybox">
-				<table style="width:100%">
-					<colgroup>
-				  	<col span="1" style="width:150px";
-				  </colgroup>
-				  <tr>
-				     <th>Title</th>
-				     <td>Addition</td>
-				   </tr>
-				   <tr>
-				     <th>Description</th>
-				     <td>Given two numbers num1 and num2. Write a function called "sum" that finds the addition of these 2 numbers.</td>
-				   </tr>
-				   <tr>
-				     <th>Category</th>
-				     <td>-</td>
-				   </tr>
-				   <tr>
-				     <th>Difficulty</th>
-				     <td>Easy</td>
-				   </tr>
-				   <tr>
-				     <th>Test Cases</th>
-				     <td>sum(1,2) -> 3</br>sum(6,12) -> 18</td>
-				   </tr>
-				 </table>
-			 </br>
-<!-- displaying table for each question in bank -->
- 				{% for q in getQuestion %} <!-- CONFIRM, get values/fill table using jinja? -->
+ 				{% for q in questionBank %}
 					<table style="width:100%">
 	 					<colgroup>
 	 				  	<col span="1" style="width:150px";
@@ -123,7 +94,7 @@
 	 				  <tr>
 	 				     <th>Test Cases</th>
 							 <td>
-							 {% for case in getQuestionTestCases %}
+							 {% for case in testcases %} <!-- needs to be fixed -->
 								 	{{ case.test_case_args }} -> {{ case.test_case_results }}</br>
 							 {% endfor %}
 						 </td>
@@ -132,7 +103,7 @@
  				 </table>
 				 {% endfor %} <!-- end table values -->
 
-			 </div></br> <!-- end box -->
+			 </br></div></br> <!-- end box -->
 
 			</div> <!-- end column right/Question Bank -->
 
