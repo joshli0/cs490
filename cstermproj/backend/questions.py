@@ -56,8 +56,31 @@ def get_question(id):
 	if results is not None and len(results) == 1:
 		return results[0]
 
-def get_all_questions():
-	return query("select * from CS490Proj.QuestionBank", as_dict = True)
+def get_all_questions(title_substring = None, description_substring = None, category = None, difficulty = None, function_name_substring = None):
+	filters = ""
+	filter_values = []
+	
+	if title_substring is not None:
+		filters += " Title ilike %s and"
+		filter_values.append("%" + title_substring + "%")
+	
+	if description_substring is not None:
+		filters += " Description ilike %s and"
+		filter_values.append("%" + description_substring + "%")
+	
+	if category is not None:
+		filters += " Category = %s and"
+		filter_values.append(category)
+	
+	if difficulty is not None:
+		filters += " Difficulty = %s and"
+		filter_values.append(difficulty)
+	
+	if function_name_substring is not None:
+		filters += " FunctionName ilike %s and"
+		filter_values.append("%" + function_name_substring + "%")
+	
+	return query("select * from CS490Proj.QuestionBank where" + filters + " true", filter_values, as_dict = True)
 
 def create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results):
 	query("insert into CS490Proj.QuestionBank(Title, Description, Difficulty, Category, FunctionName, TestCaseArgs, TestCaseOutputs) values (%s, %s, %s, %s, %s, %s, %s)", (title, description, difficulty, category, function_name, test_case_args, test_case_results))
