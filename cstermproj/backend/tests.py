@@ -6,6 +6,9 @@ def get_test_ids():
 	return [ r[0] for r in results ]
 
 def get_test_names():
+	return query("select Name from CS490Proj.Tests")
+
+def get_test_ids_and_names():
 	return query("select ID, Name from CS490Proj.Tests", as_dict = True)
 
 def get_test_id(name):
