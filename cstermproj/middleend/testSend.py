@@ -105,7 +105,7 @@ def send(flaskapp):
         data = request.values
         if 'name_or_id'in data and 'student_name_or_id' in data:
             name_or_id = data['name_or_id']
-            student_name_or_id = data['student_name']
+            student_name_or_id = data['student_name_or_id']
             #responses = data['responses']
 
             responses = []
