@@ -61,14 +61,39 @@
 
 		  </div></br> <!-- end box -->
 
-			<button type="submit" id="questionSubmit" style="width:95%" onClick="window.location.reload();">Add to Question Bank</button></br></br>
+			<button type="submit" id="questionSubmit" style="width:95%">Add to Question Bank</button></br></br>
 
 		</form> <!-- end of question creation -->
 
 		</div> <!-- end column left/Create Questions -->
 
+<!-- Filter Questions  -------------------------------------------------------->
+		<div class="column right" style="background-color:#DFDFDF;">
+		   <div class="greybox">
+
+		     <h3>Filter Questions</h3></br>
+					<form action=/getAllQuestions method="GET">
+
+		        <label for="category">Category:</label>
+		        <select name="category">
+		          {% for c in categories %}
+		            <option value="{{ c }}">{{ c }}</option>
+		          {% endfor %}
+		        </select></br>
+		        </br>
+
+		        <label for="difficulty">Difficulty:</label>
+		        <select name="difficulty">
+		          {% for d in difficulties %}
+		            <option value="{{ d }}">{{ d }}</option>
+		          {% endfor %}
+		        </select></br></br>
+
+						<button type="button">Apply</button> <!-- type: button or submit? -->
+
+					</form>
+				</div></br>
 <!-- Question Bank ------------------------------------------------------------>
-			 <div class="column right" style="background-color:#DFDFDF;">
 			  <h2>Question Bank</h2></br>
 				<!-- displaying table for each question in bank -->
 				<div class="greybox">
