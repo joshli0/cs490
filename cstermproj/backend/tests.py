@@ -14,6 +14,12 @@ def get_test_id(name):
 	if results is not None and len(results) == 1:
 		return results[0][0]
 
+def get_test_name(id):
+	results = query("select Name from CS490Proj.Tests where ID = %s", (id, ))
+	
+	if results is not None and len(results) == 1:
+		return results[0][0]
+
 def does_test_exist(name):
 	return get_test_id(name) is not None
 
