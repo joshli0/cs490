@@ -1,6 +1,9 @@
 import flask
 from ..backend.tests import *
+from ..backend.questions import *
 from flask import Flask, request, redirect
+
+
 
 def send(flaskapp):
     @flaskapp.route("/create_test", methods = ["POST", "GET"])
@@ -176,3 +179,17 @@ def getAllResponses():
 #get test case outputs
 def getTestCaseOUtputs(name_or_id, student_name_or_id):
     return get_test_case_outputs(name_or_id, student_name_or_id)
+
+
+def getquestionsintest(id):
+    questions_and_point_values = get_questions_and_points(id)
+    question_ids = questions_and_point_values['QuestionsInOrder']
+    point_values = questions_and_point_values['QuestionPoints']
+    questions = []
+    
+    for i in range (len(question_ids)):
+        question_info = get_question(question_ids[i])
+        question_info['points'] = point_values[i]
+        questions.append(question_info)
+    
+    return questions
