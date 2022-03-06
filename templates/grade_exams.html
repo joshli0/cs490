@@ -22,11 +22,12 @@
 
 <!-- Select Exam -------------------------------------------------------------->
 	<div class="full-page-box">
-		<table class="gradeExam" style="width:1000px;">
+		<h2>Submitted Exams</h2></br>
+		<div class="greybox">
+		<table>
 			<colgroup>
 				<col span="1" style="width:40%;">
 				<col span="1" style="width:40%;">
-				<col span="1" style="width:10%;">
 				<col span="1" style="width:10%;">
 			</colgroup>
 				<tr>
@@ -35,17 +36,22 @@
 				</tr>
 				<td>Student Name</td> <!-- ex. delete later -->
 				<td>Exam Title</td> <!-- ex. delete later -->
-				<td><button type="button" id="autogradeExam" onClick="autoGrade()">Autograde</td>
 				<td><a href="./app?page=review_exam"><button type="button" id="reviewExam">Review</button></a></td>
-					{% for test in TestResponses %}
+					{% for response in testResponses %}
 					<tr>
-						<td>{{ test.studentName }}</td> <!-- CONFIRM, what to put here? student name/exam title -->
-						<td>{{ test.exam_title }}</td>
-						<td><button type="button" id="autogradeExam" onClick="autoGrade()">Autograde</td>
+						<td>{{ response.studentName }}</td> <!-- CONFIRM, what to put here? -->
+						<td>{{ response.exam_title }}</td>
 						<td><a href="./app?page=review_exam"><button type="button" id="reviewExam">Review</button></a></td>
+						<!-- how to make sure this directs to the correct exam -->
 					{% endfor %}
 				</tr>
-		</table>
+		</table></br>
+
+		<form action=/runAutoGraderOnEverything method="POST">
+			<button type=submit>Autograde All</button>
+		</form>
+
+	</div></br>
 
 	</div> <!-- end page box -->
 

@@ -22,9 +22,8 @@
 
 <!-- View Exam ---------------------------------------------------------------->
 	<div class="full-page-box">
-		<table class="viewExam" style="width:100%;">
-				<tr>
-					<h2><th>Question</th></h2>
+		<table style="width:100%;">
+				<tr> <!-- headers -->
 					<h2><th>Response</th></h2>
           <h2><th>Expected</th></h2>
           <h2><th>Run</th></h2>
@@ -33,9 +32,9 @@
           <h2><th>Override Points</th></h2>
           <h2><th>Comment</th></h2>
 				</tr>
+
         <!-- example, delete later -->
         <tr>
-					<td>Question prompt</td>
 					<td>Student response</td>
           <td>function(input) -> result</td>
 					<td>student ouput</td>
@@ -44,10 +43,10 @@
           <td><input type="number" name="pointCorrection"></td>
           <td><textarea name="comment"></textarea></td>
         </tr>
-        <!-- getting from middle end -->
-				{% for question in testResponse %} <!-- what values to use here? -->
+				<!-- example, delete later -->
+
+				{% for r in responses %} <!-- what to use here? -->
 				<tr>
-					<td>{{ question.q_description }}</td>
 					<td>{{ question.response }}</td>
           {% for case in question.testcases %}
              <td>{{ case.testinput }} -> {{ case.testoutput }}</td></br>
@@ -58,19 +57,18 @@
           <td><input type="number" class="numberfield" name="pointCorrection"></td>
           <td><textarea name="comment"></textarea></td>
         </tr>
-				{% endfor %}
-        <td colspan="4" style=text-align:right;><b>Total:</b></td>
+        <td colspan="3" style=text-align:right;><b>Total:</b></td>
         <td>score</td>
         <td>exam total</td>
 				<td>override total</td>
-				<td></td>
+				{% endfor %}
 			<tr>
-				<td colspan="4" style=text-align:right;><b>Final Score:</b></td>
+				<td colspan="3" style=text-align:right;><b>Final Score:</b></td>
 				<td colspan="4" style=text-align:left;><b>score</b></td>
 			</tr>
-		</table>
+		</table></br>
 
-    <h2>
+		<h3>Test Comment:</h3><textarea name="comments_on_whole_test" cols=100 rows=5></textarea>
 
 	</div> <!-- end page box -->
 

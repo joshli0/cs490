@@ -21,24 +21,21 @@
 
 <!-- Exam List ---------------------------------------------------------------->
 	<div class="full-page-box">
-		<table class="viewExam" style="width:800px;">
-			<colgroup>
-				<col span="1" style="width:75%;">
-			</colgroup>
-				<tr>
-					<h2><th>Title</th></h2>
-					<th></th>
-				</tr>
-				<td>title</td>  <!-- delete later -->
-				<td><a href="./app?page=take_exam"><button type="button" id="takeExam">Take Exam</button></a></td>
-					{% for exam in examList %}
-					<tr>
-						<td>{{ exam.exam_title }}</td> <!-- CONFIRM, value here? -->
-						<td><a href="./app?page=take_exam"><button type="button" id="takeExam">Take Exam</button></a></td>
-						<!-- fix button to guide to correct exam -->
-					</tr>
-					{% endfor %}
-		</table>
+
+		<!-- example view, delete later -->
+		<div class="greybox">
+			<h3>Title: Sample Exam</h3></br>
+			<a href="./app?page=take_exam"><button type="submit" style="width:200px">Take Exam</button></a>
+		</div></br>
+		<!-- example view, delete later -->
+
+			{% for name in examNames %}
+				<div class="greybox">
+					<h3>Title: {{ name }}</h3></br>
+					<a href="./app?page=take_exam"><button type="submit" style="width:200px">Take Exam</button></a>
+					<!-- fix button to guide to correct exam -->
+				</div></br>
+			{% endfor %}
 
 	</div> <!-- end page box -->
 
