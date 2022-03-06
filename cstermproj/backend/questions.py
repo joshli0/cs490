@@ -51,7 +51,7 @@ def get_question_titles():
 	return query("select ID, Title from CS490Proj.QuestionBank", as_dict = True)
 
 def get_question(id):
-	results = query("select * from CS490Proj.QuestionBank where ID = %s", (id, ), as_dict = True)
+	results = query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[] from CS490Proj.QuestionBank where ID = %s", (id, ), as_dict = True)
 	
 	if results is not None and len(results) == 1:
 		return results[0]
