@@ -18,7 +18,7 @@ def send(flaskapp):
             test_case_args = []
             test_case_results = []
             for i in range (int(data['testcasecount'])):
-				num = str(i + 1)
+                num = str(i + 1)
                 test_case_args.append(data['test_case_args_' + num])
                 test_case_results.append(data['test_case_results_' + num])
 
