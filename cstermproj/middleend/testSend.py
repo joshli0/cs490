@@ -103,11 +103,16 @@ def send(flaskapp):
     @flaskapp.route("/submit_test_response", methods = ["POST", "GET"])
     def submitTestResponse():
         data = request.values
-        if 'name_or_id'in data and 'student_name_or_id' in data and \
-            'responses' in data:
+        if 'name_or_id'in data and 'student_name_or_id' in data:
             name_or_id = data['name_or_id']
             student_name_or_id = data['student_name']
-            responses = data['responses']
+            #responses = data['responses']
+
+            responses = []
+            for i in range (len(get_questions_and_points(name_or_id)[0])):
+                num = str(i)
+                responses.append(data['response-' + num])
+
             submit_test_response(name_or_id, student_name_or_id, responses)
 
         return redirect('/app?page=exam_list')
@@ -186,7 +191,7 @@ def getTestCaseOUtputs(name_or_id, student_name_or_id):
 
 
 def getquestionsintest(id):
-    question_ids,point_values = get_questions_and_points(id)
+    question_ids, point_values = get_questions_and_points(id)
     questions = []
 
     for i in range (len(question_ids)):
@@ -198,9 +203,8 @@ def getquestionsintest(id):
 
 def getQuestionNotInTest(id):
     questions = get_all_questions()
-    exam_questions, _ = get_questions_and_points(id)
-    exam_questions = exam_questions or []
-    
-    return [question for question in questions if question ['id'] not in exam_questions]
+    exam_questions,_ = get_questions_and_points(id)
+    exam_questions - exam_questions or []
+    return [question for question in questions if question['ID'] not in exam_questions]
 
     
