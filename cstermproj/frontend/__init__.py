@@ -9,20 +9,22 @@ def startup(flaskapp):
 	@flaskapp.route("/app", methods = ["GET"])
 	def app():
 		args = flask.request.args
-		
+
 		if "page" in args:
 			page = args["page"]
 		else:
 			page = "landing"
-		
+
 		if page == "landing":
 			return landing()
-		
+
 		if flask.session["teacher"]:
 			if page == "manage_questions":
 				return manage_questions()
 			elif page == "manage_exams":
 				return manage_exams()
+			elif page == "build_exam":
+				return build_exam()
 			elif page == "grade_exams":
 				return grade_exams()
 			elif page == "review_exam":
@@ -36,5 +38,5 @@ def startup(flaskapp):
 				return take_exam()
 			elif page == "results":
 				return results()
-		
+
 		return flask.redirect("/app")
