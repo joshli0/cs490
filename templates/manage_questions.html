@@ -26,7 +26,7 @@
 		   <h2>Create Question</h2></br>
 			 <div class="greybox">
 
-		    <form action="/create_question" id="questionForm" method="POST">
+		    <form action="/createQuestion" method="POST">
 					<h3><label for="title">Title:</label></h3>
 					<input type="text" name="title" size=60 required></br>
 					<br>
@@ -34,6 +34,10 @@
 		      <h3><label for="description">Description:</label></h3>
 					<textarea name="description" rows=8 cols=60 required></textarea></br>
 					</br>
+
+					<h3><label for="function_name">Function Name:</label></h3>
+					<input type="text" name="function_name" style="width:150px" required></br>
+					<br>
 
 					<h3><label for="category">Category:</label></h3>
 					<select name="category" style="width:150px" required>
@@ -57,7 +61,7 @@
 
 		  </div></br> <!-- end box -->
 
-			<button type="submit" id="questionSubmit" class="longButton">Add to Question Bank</button></br></br>
+			<button type="submit" id="questionSubmit" style="width:95%" onClick="window.location.reload();">Add to Question Bank</button></br></br>
 
 		</form> <!-- end of question creation -->
 
@@ -73,7 +77,6 @@
 	 					<colgroup>
 	 				  	<col span="1" style="width:150px";
 	 				  </colgroup>
-
 	 				  <tr>
 	 				  	<th>Title</th>
 	 				    <td>{{ q.title }}</td>
@@ -94,9 +97,15 @@
 	 				  <tr>
 	 				     <th>Test Cases</th>
 							 <td>
-							 {% for case in testcases %} <!-- needs to be fixed -->
-								 	{{ case.test_case_args }} -> {{ case.test_case_results }}</br>
-							 {% endfor %}
+								 <!-- test cases -->
+								 {% set chars='}{""}' %}
+								 {% set args = (q.testcaseargs.strip(chars)) %}
+								 {% set args = args.split('","') %}
+								 {% set outputs = (q.testcaseoutputs.strip(chars)) %}
+								 {% set outputs = outputs.split(',') %}
+								 {% for i in range(args|length) %}
+								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
+								 {% endfor %}
 						 </td>
 	 				  </tr>
 					 </br>
