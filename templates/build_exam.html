@@ -29,11 +29,56 @@
   			<h3><label for="name">Title: {{ name }}</label></h3><br/> <!-- how to display current exam name -->
 
 					<h3><label for="exam_questions">Questions:</label></h3>
-					<div id="examQuestions"></div> <!-- added questions displayed here -->
+					{% for q in examQuestions %}
+					<table style="width:100%">
+						<colgroup>
+							<col span="1" style="width:150px";
+						</colgroup>
+
+						<tr>
+							<th>ID</th>
+							<td>{{ q.id }}</td>
+						</tr>
+
+						<tr>
+							<th>Title</th>
+							<td>{{ q.title }}</td>
+						</tr>
+
+						<tr>
+							 <th>Description</th>
+							 <td>{{ q.description }}</td>
+						</tr>
+						<tr>
+							 <th>Category</th>
+							 <td>{{ q.category }}</td>
+						</tr>
+						<tr>
+							 <th>Difficulty</th>
+							 <td>{{ q.difficulty }}</td>
+						</tr>
+						<tr>
+							 <th>Test Cases</th>
+							 <td>
+								 <!-- test cases -->
+								 {% set args = q.testcaseargs %}
+								 {% set outputs = q.testcaseoutputs %}
+								 {% for i in range(args|length)%}
+										{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
+								 {% endfor %}
+						 </td>
+						</tr>
+					<tr>
+						<th>Question Points</th>
+						<td>{{ q.points }}</td>
+					</tr>
+					 </br>
+				 </table>
+				{% endfor %}
 
 				</div></br> <!-- end box -->
 
-	      <button type="button" style="width:95%">Submit Exam</button></br></br> <!-- is this needed -->
+	      <button type="button" style="width:95%">Finished Editing</button></br></br> <!-- is this needed -->
 
 	  </div> <!-- end column left/Exam -->
 
@@ -75,10 +120,14 @@
 			 				  </colgroup>
 
 								<tr>
-			 				  	<th>Title</th>
-			 				    <td>{{ q.title }}</td>
-									<th>ID: {{ q.id }}</th> <!-- fix -->
-			 				  </tr>
+									<th>ID</th>
+									<td>{{ q.id }}</td>
+								</tr>
+
+								<tr>
+									<th>Title</th>
+									<td>{{ q.title }}</td>
+								</tr>
 
 			 				  <tr>
 			 				     <th>Description</th>
@@ -96,19 +145,26 @@
 			 				     <th>Test Cases</th>
 									 <td>
 										 <!-- test cases -->
-										 {% set chars='}{""}' %}
-										 {% set args = (q.testcaseargs.strip(chars)) %}
-										 {% set args = args.split('","') %}
-										 {% set outputs = (q.testcaseoutputs.strip(chars)) %}
-										 {% set outputs = outputs.split(',') %}
-										 {% for i in range(args|length) %}
+										 {% set args = q.testcaseargs %}
+										 {% set outputs = q.testcaseoutputs %}
+										 {% for i in range(args|length)%}
 										 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
 										 {% endfor %}
 								 </td>
 			 				  </tr>
+
+								<tr>
+									<th>Question Points</th>
+									<td>{{ q.points }}</td>
+								</tr>
+
 							 </br>
 		 				 </table>
-						 <button type="button" class="longButton" onClick="addToExam()">Add to Exam</button>
+						 <form action="/add_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
+							 	<input type="number" min="0" max="100" name="point_value" step="1" value="10"></input>
+						 		<button type="submit" class="longButton">Add</button> <!-- change button to say Add to exam -->
+					 	 </form>
+						 <!-- this button should have the question id so when you click add it adds that specific question to the exam -->
 						 {% endfor %} <!-- end table values -->
 
 				</div></br> <!-- end box -->

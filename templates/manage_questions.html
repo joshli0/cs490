@@ -57,7 +57,7 @@
 
 					<h3>Test Cases:</h3>(For multiple values, separate with a space)</br></br>
 					<label for="testcasecount">Number of Test Cases:</label>
-					<input type="number" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br>
+					<input type="number" name="testcasecount" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br>
 					<div id="testCases"></div> <!-- displays form fields on click -->
 					<!-- <button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button></br> -->
 
@@ -74,7 +74,7 @@
 		   <div class="greybox">
 
 		     <h3>Filter Questions</h3></br>
-					<form action=/getAllQuestions method="GET">
+					<form action="/app?page=manage_questions" method="POST">
 
 		        <label for="category">Category:</label>
 		        <select name="category">
@@ -125,12 +125,9 @@
 	 				     <th>Test Cases</th>
 							 <td>
 								 <!-- test cases -->
-								 {% set chars='}{""}' %}
-								 {% set args = (q.testcaseargs.strip(chars)) %}
-								 {% set args = args.split('","') %}
-								 {% set outputs = (q.testcaseoutputs.strip(chars)) %}
-								 {% set outputs = outputs.split(',') %}
-								 {% for i in range(args|length) %}
+								 {% set args = q.testcaseargs %}
+								 {% set outputs = q.testcaseoutputs %}
+								 {% for i in range(args|length)%}
 								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
 								 {% endfor %}
 						 </td>
