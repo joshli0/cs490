@@ -198,7 +198,9 @@ def getquestionsintest(id):
 
 def getQuestionNotInTest(id):
     questions = get_all_questions()
-    exam_questions,_ = get_questions_and_points(id)
-    return [question for question in questions if question ['ID'] not in exam_questions]
+    exam_questions, _ = get_questions_and_points(id)
+    exam_questions = exam_questions or []
+    
+    return [question for question in questions if question ['id'] not in exam_questions]
 
     
