@@ -1,41 +1,110 @@
 import flask
+from flask import Flask, request, redirect
 from ..backend.questions import *
 
 #create question
-def createQuestion(title, description, difficulty, category, function_name, test_case_args, test_case_results):
-    return create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results)
+def send(flaskapp):
+    @flaskapp.route("/create_question", methods = ["POST", "GET"])
+    def createQuestion():
+        data = request.values
+        if 'title' in data and 'description' in data and 'difficulty' in data \
+            and 'category' in data and 'function_name' in data \
+            and 'test_case_args' in data and 'test_case_results' in data:
+            title = data['title']
+            description = data['description']
+            difficulty = data['difficulty']
+            category = data['category']
+            function_name = data['function_name']
+            test_case_args = data['test_case_args']
+            test_case_results = data['test_case_results']
 
-#edit question
-def editQuestion(id, title, description, difficulty, category, function_name, test_case_args, test_case_results):
-    return edit_question(id, title, description, difficulty, category, function_name, test_case_args, test_case_results)
+            create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results)
+        
+        return redirect('/app?page=manage_questions')
+    
+    @flaskapp.route("/edit_question", methods = ["POST", "GET"])
+    def editQuestion():
+        data = request.values
+        if 'id' in data and 'title' in data and 'description' in data and 'difficulty' in data \
+            and 'category' in data and 'function_name' in data \
+            and 'test_case_args' in data and 'test_case_results' in data:
+            id = data['id']
+            title = data['title']
+            description = data['description']
+            difficulty = data['difficulty']
+            category = data['category']
+            function_name = data['function_name']
+            test_case_args = data['test_case_args']
+            test_case_results = data['test_case_results']
 
-#delete question
-def deleteQuestion(id):
-    return delete_question(id)
+            edit_question(id, title, description, difficulty, category, function_name, test_case_args, test_case_results)
+        
+        return redirect('/app?page=manage_questions')
 
-#add difficulty
-def addDifficulty(name):
-    return add_difficulty(name)
+    @flaskapp.route("/delete_question", methods = ["POST", "GET", "DELETE"])
+    def deleteQuestion():
+        data = request.values
+        if 'id' in data:
+            id = data['id']
+            delete_question(id)
+        
+        return redirect('/app?page=manage_questions')
 
-#delete difficulty
-def deleteDifficulty(name):
-    return delete_difficulty(name)
+    @flaskapp.route("/add_difficulty", methods = ["POST", "GET"])
+    def addDifficulty():
+        data = request.values
+        if 'name' in data:
+            name = data['name']
+            add_difficulty(name)
+        
+        return redirect('/app?page=manage_questions')
 
-#rename difficulty
-def renameDifficulty(old_name, new_name):
-     return rename_difficulty(old_name, new_name)
+    @flaskapp.route("/delete_difficulty", methods = ["POST", "GET", "DELETE"])
+    def deleteDifficulty():
+        data = request.values
+        if 'name' in data:
+            name = data['name']
+            delete_difficulty(name)
+        
+        return redirect('/app?page=manage_questions')
 
-#add category
-def addCategory(name):
-    return add_category(name)
+    @flaskapp.route("/rename_difficulty", methods = ["POST", "GET"])
+    def renameDifficulty():
+        data = request.values
+        if 'old_name' in data and 'new_name' in data:
+            old_name = data['old_name']
+            new_name = data['new_name']
+            add_difficulty(old_name, new_name)
+        
+        return redirect('/app?page=manage_questions')
 
-#delete category
-def deleteCategory(name):
-    return delete_category(name)
+    @flaskapp.route("/add_category", methods = ["POST", "GET"])
+    def addCategory():
+        data = request.values
+        if 'name' in data:
+            name = data['name']
+            add_category(name)
+        
+        return redirect('/app?page=manage_questions')
 
-#rename category
-def renameCategory(old_name, new_name):
-    return rename_category(old_name, new_name)
+    @flaskapp.route("/delete_category", methods = ["POST", "GET", "DELETE"])
+    def deleteCategory():
+        data = request.values
+        if 'name' in data:
+            name = data['name']
+            delete_category(name)
+        
+        return redirect('/app?page=manage_questions')
+
+    @flaskapp.route("/rename_category", methods = ["POST", "GET"])
+    def renameCategory():
+        data = request.values
+        if 'old_name' in data and 'new_name' in data:
+            old_name = data['old_name']
+            new_name = data['new_name']
+            rename_category(old_name, new_name)
+        
+        return redirect('/app?page=manage_questions')
 
 #can delete difficulty
 def canDeleteDiff(name):
