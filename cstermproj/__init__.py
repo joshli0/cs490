@@ -16,8 +16,8 @@ def startup():
 	
 	flaskapp.secret_key = token_urlsafe(16)
 	
-	start_front(flaskapp)
-	start_middle(flaskapp)
 	start_back()
+	start_middle(flaskapp)
+	start_front(flaskapp)
 	
 	return flaskapp
