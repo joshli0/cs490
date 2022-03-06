@@ -20,14 +20,16 @@ def send(flaskapp):
     @flaskapp.route("/add_question", methods = ["POST", "GET"])
     def addQuestion():
         data = request.values
+        redir = "manage_exams"
         if 'test_id' in data and 'question_id' in data and \
             'point_value' in data:
             test_id = int(data['test_id'])
             question_id = int(data['question_id'])
             point_value = int(data['point_value'])
             add_question(test_id, question_id, point_value)
+            redir = "build_exam&title=" + get_test_name(test_id)
 
-        return redirect('/app?page=manage_exams')
+        return redirect('/app?page=' + redir)
 
     @flaskapp.route("/remove_question", methods = ["POST", "GET", "DELETE"])
     def removeQuestion():
@@ -184,14 +186,12 @@ def getTestCaseOUtputs(name_or_id, student_name_or_id):
 
 
 def getquestionsintest(id):
-    questions_and_point_values = get_questions_and_points(id)
-    question_ids = questions_and_point_values['QuestionsInOrder']
-    point_values = questions_and_point_values['QuestionPoints']
+    question_ids,point_values = get_questions_and_points(id)
     questions = []
-    
+
     for i in range (len(question_ids)):
         question_info = get_question(question_ids[i])
         question_info['points'] = point_values[i]
         questions.append(question_info)
-    
+
     return questions
