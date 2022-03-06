@@ -195,3 +195,6 @@ def getquestionsintest(id):
         questions.append(question_info)
     
     return questions
+
+def getQuestionNotInTest(id):
+    
