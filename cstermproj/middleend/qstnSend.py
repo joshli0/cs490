@@ -14,13 +14,13 @@ def send(flaskapp):
             difficulty = data['difficulty']
             category = data['category']
             function_name = data['function_name']
-            #test_case_args = data['test_case_args']
-            #test_case_results = data['test_case_results']
+            
             test_case_args = []
             test_case_results = []
             for i in range (int(data['testcasecount'])):
-                test_case_args.append(data['test_case_args_' + str(i)])
-                test_case_results.append(data['test_case_results_' + str(i)])
+				num = str(i + 1)
+                test_case_args.append(data['test_case_args_' + num])
+                test_case_results.append(data['test_case_results_' + num])
 
             create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results)
         
