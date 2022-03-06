@@ -8,7 +8,7 @@
 	<script src="./script.js"></script>
 </head>
 
-<body>
+<body onload="adddefaulttestcases()">
 	<nav>
     <label class="logo">Manage Questions</label>
     <ul>
@@ -56,8 +56,10 @@
 					</br>
 
 					<h3>Test Cases:</h3>(For multiple values, separate with a space)</br></br>
+					<label for="testcasecount">Number of Test Cases:</label>
+					<input type="number" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br>
 					<div id="testCases"></div> <!-- displays form fields on click -->
-					<button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button></br>
+					<!-- <button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button></br> -->
 
 		  </div></br> <!-- end box -->
 

@@ -1,23 +1,49 @@
 // Add Test Case ---------------------------------------------------------------
-element.addEventListener("click", addTestCase);
-function addTestCase() {
+function addTestCase(id) {
   let div = document.createElement("div");
   let html = `
   <div class="testcase">
-    <h4><label for="test_case_args">Input:</label></h4>
-    <input type="text" name="test_case_args" required></br>
-    <h4><label for="test_case_results">Output:</label></h4>
-    <input type="text" name="test_case_results" required></br>
+    <h4><label for="test_case_args_ID">Input:</label></h4>
+    <input type="text" name="test_case_args_ID" required></br>
+    <h4><label for="test_case_results_ID">Output:</label></h4>
+    <input type="text" name="test_case_results_ID" required></br>
   </div>
   </br>
   `;
-  div.innerHTML = html;
+  div.innerHTML = html.replaceAll('ID', ''+id);
+  div.id = "testcaseholder-" + id;
   let element = document.getElementById("testCases");
   element.appendChild(div);
 }
 
-// Add to Exam ---------------------------------------------------------------
-element.addEventListener("click", addToExam);
+
+prevcount = 2;
+function adddefaulttestcases() {
+  addTestCase(1);
+  addTestCase(2);
+}
+
+function testcasecountchanged() {
+  count = document.getElementById("testcasecount").value;
+  if (count > prevcount) {
+    for (i=prevcount+1; i<=count; i++){
+      addTestCase(i);
+    }
+  }
+  if (count < prevcount) {
+    for (i=prevcount; i>count; i--) {
+      deletetestcase(i);
+    }
+  }
+  prevcount = count;
+}
+
+function deletetestcase(id) {
+  elem = document.getElementById("testcaseholder-" + id);
+  elem.parentNode.removeChild(elem);
+}
+
+// Add to Exam ----------------------------------------------------------------- delete?
 function addToExam() {
   let div = document.createElement("div");
   let html = `
@@ -28,33 +54,16 @@ function addToExam() {
   element.appendChild(div);
 }
 
-// Apply Filter ----------------------------------------------------------------
-element.addEventListener("click", applyFilter);
-function applyFilter() {
-  // to be completed if needed
-}
-
-// Get Question Bank -----------------------------------------------------------
-element.addEventListener("click", getQuestionBank);
-function getQuestionBank() {
+// displayQuestionArea ---------------------------------------------------------
+function displayQuestionArea() {
   let div = document.createElement("div");
-  let html = `
-  QUESTION BANK HERE
-  `;
+  let html = `<h3><label for="exam_questions">Questions:</label></h3>`
   div.innerHTML = html;
-  let element = document.getElementById("displayQuestionBank");
+  let element = document.getElementById("questionArea");
   element.appendChild(div);
 }
-/* add to HTML to call
-  <div id="displayQuestionBank">
-   <script>
-    getQuestionBank();
-   </script>
-  </div>
-*/
 
-// Autograde Exam  ----------------------------------------------------------------
-element.addEventListener("click", autogradeExam);
-function autogradeExam() {
+// Apply Filter ----------------------------------------------------------------
+function applyFilter() {
   // to be completed if needed
 }
