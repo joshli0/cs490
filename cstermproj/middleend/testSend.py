@@ -103,10 +103,9 @@ def send(flaskapp):
     @flaskapp.route("/submit_test_response", methods = ["POST", "GET"])
     def submitTestResponse():
         data = request.values
-        if 'name_or_id'in data and 'student_name_or_id' in data:
+        if 'name_or_id'in data:
             name_or_id = data['name_or_id']
-            student_name_or_id = data['student_name_or_id']
-            #responses = data['responses']
+            student_name_or_id = flask.session['user']
 
             responses = []
             for i in range (len(get_questions_and_points(name_or_id)[0])):
