@@ -80,7 +80,7 @@ def get_all_questions(title_substring = None, description_substring = None, cate
 		filters += " FunctionName ilike %s and"
 		filter_values.append("%" + function_name_substring + "%")
 	
-	return query("select * from CS490Proj.QuestionBank where" + filters + " true", filter_values, as_dict = True)
+	return query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[] from CS490Proj.QuestionBank where" + filters + " true", filter_values, as_dict = True)
 
 def create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results):
 	query("insert into CS490Proj.QuestionBank(Title, Description, Difficulty, Category, FunctionName, TestCaseArgs, TestCaseOutputs) values (%s, %s, %s, %s, %s, %s, %s)", (title, description, difficulty, category, function_name, test_case_args, test_case_results))
