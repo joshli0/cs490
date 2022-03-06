@@ -24,7 +24,7 @@ function adddefaulttestcases() {
 }
 
 function testcasecountchanged() {
-  count = document.getElementById("testcasecount").value;
+  count = parseInt(document.getElementById("testcasecount").value);
   if (count > prevcount) {
     for (i=prevcount+1; i<=count; i++){
       addTestCase(i);

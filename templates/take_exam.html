@@ -24,28 +24,28 @@
 	<div class="full-page-box">
 		<form id="exam" method="POST"> <!-- exam response -->
 			<table class="viewExam" style="width:80%;">
-					{% for question in testQuestions %}
+					{% for q in examQuestions %}
 					<tr>
-						<th><h3>Question:</h3>{{ question.q_description }}</th>
-						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+						<th><h3>Question:</h3>{{ q.description }}</th>
+						<th><h3>Point Value:</h3>{{ q.points }}</th>
 					</tr>
 						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
 					</tr>
 					<tr>
-						<th><h3>Question:</h3>{{ question.q_description }}</th>
-						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+						<th><h3>Question:</h3>{{ q.description }}</th>
+						<th><h3>Point Value:</h3>{{ q.points }}</th>
 					</tr>
 						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
 					</tr>
 					<tr>
-						<th><h3>Question:</h3>{{ question.q_description }}</th>
-						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+						<th><h3>Question:</h3>{{ q.description }}</th>
+						<th><h3>Point Value:</h3>{{ q.points }}</th>
 					</tr>
 						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
 					</tr>
 					<tr>
-						<th><h3>Question:</h3>{{ question.q_description }}</th>
-						<th><h3>Point Value:</h3>{{ question.Points }}</th>
+						<th><h3>Question:</h3>{{ q.description }}</th>
+						<th><h3>Point Value:</h3>{{ q.points }}</th>
 					</tr>
 						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
 					</tr>
