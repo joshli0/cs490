@@ -8,8 +8,7 @@ def send(flaskapp):
     def createQuestion():
         data = request.values
         if 'title' in data and 'description' in data and 'difficulty' in data \
-            and 'category' in data and 'function_name' in data \
-            and 'test_case_args' in data and 'test_case_results' in data:
+            and 'category' in data and 'function_name' in data:
             title = data['title']
             description = data['description']
             difficulty = data['difficulty']
