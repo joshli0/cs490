@@ -1,9 +1,8 @@
 import flask
 from ..backend.tests import *
 from ..backend.questions import *
+from ..backend.login import *
 from flask import Flask, request, redirect
-
-
 
 def send(flaskapp):
     @flaskapp.route("/create_test", methods = ["POST", "GET"])
@@ -208,3 +207,13 @@ def getQuestionNotInTest(id):
     exam_questions,_ = get_questions_and_points(id)
     exam_questions = exam_questions or []
     return [question for question in questions if question['id'] not in exam_questions]
+
+def get_names_from_ids():
+    test_ids, student_ids = get_all_responses()
+    names = []
+
+    for i in range(len(test_ids)):
+        testInfo = {"name": get_test_name(test_ids[i]), "student": get_username(student_ids[i])}
+        names.append(testInfo)
+
+    return names
