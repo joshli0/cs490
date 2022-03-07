@@ -210,7 +210,7 @@ def getQuestionNotInTest(id):
     exam_questions = exam_questions or []
     return [question for question in questions if question['id'] not in exam_questions]
 
-def get_names_from_ids():
+def get_submitted_exam_names_and_student_names():
     test_ids, student_ids = get_all_responses()
     names = []
 
