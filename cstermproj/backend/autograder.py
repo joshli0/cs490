@@ -82,9 +82,9 @@ def run_test_case(code, function_name, args, expected_output):
 	try:
 		exec(
 			code + """
-	global exec_output
-	exec_output["actual_output"] = """ + function_name + "(" + str(args) + """)
-	exec_output["output_correct"] = (exec_output["actual_output"] == """ + str(expected_output) + ")",
+global exec_output
+exec_output["actual_output"] = """ + function_name + "(" + str(args) + """)
+exec_output["output_correct"] = (exec_output["actual_output"] == """ + str(expected_output) + ")",
 			{ "exec_output": exec_output }
 		)
 	except:
