@@ -14,15 +14,10 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 	test_case_outputs  = []
 	
 	responses = get_test_responses(test_name_or_id, student_name_or_id)
-	questions_and_points = get_questions_and_points(test_name_or_id)
-	num_questions = len(questions_and_points)
+	questions, points = get_questions_and_points(test_name_or_id)
 	
-	for i in range(num_questions):
-		question_id = questions_and_points[i][0]
-		num_points  = questions_and_points[i][1]
-		response    = responses[i]
-		
-		grades, outputs = grade_question(question_id, num_points, response)
+	for i in range(len(questions)):
+		grades, outputs = grade_question(questions[i], points[i], responses[i])
 		
 		auto_grader_grades.append(grades)
 		test_case_outputs.append(outputs)
