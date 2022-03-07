@@ -185,7 +185,7 @@ def getAllResponses():
     return get_all_responses()
 
 #get test case outputs
-def getTestCaseOUtputs(name_or_id, student_name_or_id):
+def getTestCaseOutputs(name_or_id, student_name_or_id):
     return get_test_case_outputs(name_or_id, student_name_or_id)
 
 
