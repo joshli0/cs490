@@ -20,76 +20,11 @@
     </ul>
   </nav>
 
-<!-- Exam --------------------------------------------------------------------->
+<!-- Question Bank ------------------------------------------------------------>
 	<div class="row">
-	  <div class="column left" style="background-color:#DFDFDF;">
-
-			<div class="greybox">
-
-  			<h3><label for="name">Title: {{ name }}</label></h3><br>
-
-					<h3><label for="exam_questions">Questions:</label></h3>
-					{% for q in examQuestions %}
-					<table style="width:100%">
-						<colgroup>
-							<col span="1" style="width:150px";
-						</colgroup>
-
-						<tr>
-							<th>ID</th>
-							<td>{{ q.id }}</td>
-						</tr>
-
-						<tr>
-							<th>Title</th>
-							<td>{{ q.title }}</td>
-						</tr>
-
-						<tr>
-							 <th>Description</th>
-							 <td>{{ q.description }}</td>
-						</tr>
-						<tr>
-							 <th>Category</th>
-							 <td>{{ q.category }}</td>
-						</tr>
-						<tr>
-							 <th>Difficulty</th>
-							 <td>{{ q.difficulty }}</td>
-						</tr>
-						<tr>
-							 <th>Test Cases</th>
-							 <td>
-								 <!-- test cases -->
-								 {% set args = q.testcaseargs %}
-								 {% set outputs = q.testcaseoutputs %}
-								 {% for i in range(args|length)%}
-										{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
-								 {% endfor %}
-						 </td>
-						</tr>
-					<tr>
-						<th>Question Points</th>
-						<td>{{ q.points }}</td>
-					</tr>
-					 <br>
-				 </table>
-				 <!-- button to remove question, fix -->
-				 <form action="/remove_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
-					 <button type="submit" class="longButton">Remove</button><br>
-				 </form><br>
-				{% endfor %}
-
-				</div><br> <!-- end box -->
-
-	      <button type="button" style="width:95%" onclick="location.href='./app?page=manage_exams'">Complete Editing</button><br><br>
-
-	  </div> <!-- end column left/Exam -->
-
-<!-- Filter Questions  -------------------------------------------------------->
-		  <div class="column right" style="background-color:#DFDFDF;">
+		  <div class="column left" style="background-color:#DFDFDF;">
           <div class="greybox">
-
+<!-- Filter Questions  -------------------------------------------------------->
             <h3>Filter Questions</h3><br>
 						<form action=/getAllQuestions method="GET">
 
@@ -172,7 +107,72 @@
 
 				</div><br> <!-- end box -->
 
-		  </div> <!-- end column right/Create Exam -->
+		  </div> <!-- end column left/Question Bank -->
+
+<!-- Create Exam -------------------------------------------------------------->
+			<div class="column right" style="background-color:#DFDFDF;">
+
+				<div class="greybox">
+
+	  			<h3><label for="name">Title: {{ name }}</label></h3><br>
+
+						<h3><label for="exam_questions">Questions:</label></h3>
+						{% for q in examQuestions %}
+						<table style="width:100%">
+							<colgroup>
+								<col span="1" style="width:150px";
+							</colgroup>
+
+							<tr>
+								<th>ID</th>
+								<td>{{ q.id }}</td>
+							</tr>
+
+							<tr>
+								<th>Title</th>
+								<td>{{ q.title }}</td>
+							</tr>
+
+							<tr>
+								 <th>Description</th>
+								 <td>{{ q.description }}</td>
+							</tr>
+							<tr>
+								 <th>Category</th>
+								 <td>{{ q.category }}</td>
+							</tr>
+							<tr>
+								 <th>Difficulty</th>
+								 <td>{{ q.difficulty }}</td>
+							</tr>
+							<tr>
+								 <th>Test Cases</th>
+								 <td>
+									 <!-- test cases -->
+									 {% set args = q.testcaseargs %}
+									 {% set outputs = q.testcaseoutputs %}
+									 {% for i in range(args|length)%}
+											{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
+									 {% endfor %}
+							 </td>
+							</tr>
+						<tr>
+							<th>Question Points</th>
+							<td>{{ q.points }}</td>
+						</tr>
+						 <br>
+					 </table>
+					 <!-- button to remove question, fix -->
+					 <form action="/remove_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
+						 <button type="submit" class="longButton">Remove</button><br>
+					 </form><br>
+					{% endfor %}
+
+					</div><br> <!-- end box -->
+
+		      <button type="button" style="width:95%" onclick="location.href='./app?page=manage_exams'">Complete Editing</button><br><br>
+
+		  </div> <!-- end column right/Exam -->
 
 	</div> <!-- end row -->
 
