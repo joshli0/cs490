@@ -23,20 +23,20 @@
 <!-- Create Question ---------------------------------------------------------->
 	<div class="row">
 		 <div class="column left" style="background-color:#DFDFDF;">
-		   <h2>Create Question</h2></br>
+		   <h2>Create Question</h2><br>
 			 <div class="greybox">
 
 		    <form action="/create_question" method="POST">
 					<h3><label for="title">Title:</label></h3>
-					<input type="text" name="title" size=60 required></br>
+					<input type="text" name="title" size=60 required><br>
 					<br>
 
 		      <h3><label for="description">Description:</label></h3>
-					<textarea name="description" rows=8 cols=60 required></textarea></br>
-					</br>
+					<textarea name="description" rows=8 cols=60 required></textarea><br>
+					<br>
 
 					<h3><label for="function_name">Function Name:</label></h3>
-					<input type="text" name="function_name" style="width:150px" required></br>
+					<input type="text" name="function_name" style="width:150px" required><br>
 					<br>
 
 					<h3><label for="category">Category:</label></h3>
@@ -44,26 +44,26 @@
 						{% for c in categories %}
 							<option value="{{ c }}">{{ c }}</option>
 						{% endfor %}
-	      	</select></br>
-					</br>
+	      	</select><br>
+					<br>
 
 					<h3><label for="difficulty">Difficulty:</label></h3>
 					<select name="difficulty" style="width:150px" required>
 						{% for d in difficulties %}
 							<option value="{{ d }}">{{ d }}</option>
 						{% endfor %}
-	      	</select></br>
-					</br>
+	      	</select><br>
+					<br>
 
-					<h3>Test Cases:</h3>(For multiple values, separate with a space)</br></br>
+					<h3>Test Cases:</h3>(For multiple values, separate with a space)<br><br>
 					<label for="testcasecount">Number of Test Cases:</label>
-					<input type="number" name="testcasecount" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br>
+					<input type="number" name="testcasecount" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br><br>
 					<div id="testCases"></div> <!-- displays form fields on click -->
-					<!-- <button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button></br> -->
+					<!-- <button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button><br> -->
 
-		  </div></br> <!-- end box -->
+		  </div><br> <!-- end box -->
 
-			<button type="submit" id="questionSubmit" style="width:95%">Add to Question Bank</button></br></br>
+			<button type="submit" id="questionSubmit" style="width:95%">Add to Question Bank</button><br><br>
 
 		</form> <!-- end of question creation -->
 
@@ -73,7 +73,7 @@
 		<div class="column right" style="background-color:#DFDFDF;">
 		   <div class="greybox">
 
-		     <h3>Filter Questions</h3></br>
+		     <h3>Filter Questions</h3><br>
 					<form action="/app?page=manage_questions" method="POST">
 
 		        <label for="category">Category:</label>
@@ -81,22 +81,22 @@
 		          {% for c in categories %}
 		            <option value="{{ c }}">{{ c }}</option>
 		          {% endfor %}
-		        </select></br>
-		        </br>
+		        </select><br>
+		        <br>
 
 		        <label for="difficulty">Difficulty:</label>
 		        <select name="difficulty">
 		          {% for d in difficulties %}
 		            <option value="{{ d }}">{{ d }}</option>
 		          {% endfor %}
-		        </select></br></br>
+		        </select><br><br>
 
 						<button type="button">Apply</button> <!-- type: button or submit? -->
 
 					</form>
-				</div></br>
+				</div><br>
 <!-- Question Bank ------------------------------------------------------------>
-			  <h2>Question Bank</h2></br>
+			  <h2>Question Bank</h2><br>
 				<!-- displaying table for each question in bank -->
 				<div class="greybox">
  				{% for q in questionBank %}
@@ -128,15 +128,15 @@
 								 {% set args = q.testcaseargs %}
 								 {% set outputs = q.testcaseoutputs %}
 								 {% for i in range(args|length)%}
-								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
+								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
 								 {% endfor %}
 						 </td>
 	 				  </tr>
-					 </br>
+					 <br>
  				 </table>
 				 {% endfor %} <!-- end table values -->
 
-			 </br></div></br> <!-- end box -->
+			 <br></div><br> <!-- end box -->
 
 			</div> <!-- end column right/Question Bank -->
 
