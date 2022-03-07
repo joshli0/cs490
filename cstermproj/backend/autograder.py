@@ -25,7 +25,7 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 		grades, outputs = grade_question(question_id, num_points, response)
 		
 		auto_grader_grades.append(grades)
-		test_case_output.append(outputs)
+		test_case_outputs.append(outputs)
 	
 	set_test_case_outputs(test_name_or_id, student_name_or_id, test_case_outputs)
 	set_test_auto_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
