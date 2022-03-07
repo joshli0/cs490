@@ -67,3 +67,42 @@ function displayQuestionArea() {
 function applyFilter() {
   // to be completed if needed
 }
+
+function updateQuestionPoints(qnum, shouldUpdateTotal) {
+  let total = 0;
+  let casenum = 0;
+  while(true){
+    let elem = document.getElementById("override-" + qnum + "-" + casenum)
+    if(elem==null){
+      break;
+    }
+    total += parseFloat(elem.value);
+    casenum += 1;
+  }
+  document.getElementById("total-" + qnum).innerHTML = total;
+  if(shouldUpdateTotal){
+    updateTotal();
+  }
+}
+
+
+function setUpPoints(numquestions) {
+  for(i=0; i<numquestions; i++){
+    updateQuestionPoints(i, false);
+  }
+  updateTotal();
+}
+
+function updateTotal(){
+  let qnum = 0;
+  let total = 0;
+  while(true){
+    let elem = document.getElementById("total-" + qnum);
+    if(elem==null){
+      break;
+    }
+    total += parseFloat(elem.innerHTML);
+    qnum += 1;
+  }
+  document.getElementById("overridePoints").innerHTML = total;
+}
