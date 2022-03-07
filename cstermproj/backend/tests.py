@@ -1,6 +1,7 @@
 from json import loads as from_json, dumps as to_json
 
 from .dbconn import query, commit
+from .login import get_user_id
 from .questions import does_question_exist
 
 def get_test_ids():
@@ -113,6 +114,13 @@ def get_user_id(username):
 
 def get_all_responses():
 	return query("select WhichTest, WhichStudent from CS490Proj.TestResponses")
+
+def get_tests_taken_by(name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_user_id(name_or_id)
+	
+	response = query("select WhichTest from CS490Proj.TestResponses where WhichStudent = %s", (name_or_id, ))
+	return [r[0] for r in response]
 
 def submit_test_response(name_or_id, student_name_or_id, responses):
 	if isinstance(name_or_id, str):

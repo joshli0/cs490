@@ -39,7 +39,7 @@ def review_exam():
 # Student pages
 def exam_list():
     return flask.render_template("exam_list.html",
-    examNames=get_test_names())
+    examNames=get_available_test_names())
 
 def view_results():
     return flask.render_template("view_results.html")

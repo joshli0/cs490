@@ -219,3 +219,14 @@ def get_names_from_ids():
         names.append(testInfo)
 
     return names
+
+def get_available_test_names():
+    ids = getTestIDS()
+    ids_taken = get_tests_taken_by(flask.session["user"])
+    names = []
+    
+    for id in ids:
+        if id not in ids_taken:
+            names.append(get_test_name(id))
+    
+    return names
