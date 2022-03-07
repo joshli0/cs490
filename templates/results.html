@@ -51,7 +51,7 @@
 
 						<td>{{ pointsPerThing }}</td>
 
-						<td>+{{ autograderPoints[qnum][0] }}</td>
+						<td>+{{ points[qnum][0] }}</td>
 
 				<td rowspan="{{numGrades}}">{{ commentsPerQuestion[qnum] }}</td>
 				</tr>
@@ -70,7 +70,7 @@
 
 			<td>{{ pointsPerThing*2 }}</td>
 
-			<td>+{{ autograderPoints[qnum][tcnum+1] }}</td>
+			<td>+{{ points[qnum][tcnum+1] }}</td>
 
 		</tr>
 				{% endfor %}

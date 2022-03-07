@@ -80,8 +80,8 @@ def results():
     examID = get_test_id(name)
     questions = getquestionsintest(examID)
     commentsPerQuestion,wholeTestComments=get_test_comments(examID, student)
-    autograderPoints=get_test_auto_grades(examID, student)
-    scorePerQuestion=[sum(val) for val in autograderPoints]
+    points=get_test_manual_grades(examID, student)
+    scorePerQuestion=[sum(val) for val in points]
     return flask.render_template("results.html",
     name = name,
     student = student,
@@ -89,11 +89,10 @@ def results():
     questions=questions,
     commentsPerQuestion=commentsPerQuestion,
     wholeTestComments=wholeTestComments,
-    autograderPoints=autograderPoints,
     scorePerQuestion=scorePerQuestion,
     answers=getTestResponses(examID, student),
     code_outputs=get_test_case_outputs(examID, student),
     function_names=get_test_response_actual_function_names(examID, student),
-    manualPoints=get_test_manual_grades(examID, student),
+    points=points,
     scoreTotal=sum(scorePerQuestion),
     scoreMax=sum(q["points"] for q in questions))
