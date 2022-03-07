@@ -211,11 +211,11 @@ def getQuestionNotInTest(id):
     return [question for question in questions if question['id'] not in exam_questions]
 
 def get_submitted_exam_names_and_student_names():
-    test_ids, student_ids = get_all_responses()
+    tests_and_students = get_all_responses()
     names = []
 
-    for i in range(len(test_ids)):
-        testInfo = {"name": get_test_name(test_ids[i]), "student": get_username(student_ids[i])}
+    for i in range(len(tests_and_students)):
+        testInfo = {"name": get_test_name(tests_and_students[i][0]), "student": get_username(tests_and_students[i][1])}
         names.append(testInfo)
 
     return names
