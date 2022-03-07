@@ -39,8 +39,12 @@
         {% for name in examNames %}
 				<div class="greybox">
           <h3>Title: {{ name }}</h3><br>
-					<a href="./app?page=build_exam&title={{ name }}"><button type="submit" style="width:200px">Edit</button></a>
-					<!-- will later add feature to modify previous exams -->
+					<!-- edit exam button -->
+					<a href="./app?page=build_exam&title={{ name }}"><button type="submit" style="width:200px">Edit</button></a><br><br>
+					<!-- delete exam button -->
+					<form action="/delete_test?name={{ name }}" method="POST">
+						<button type="submit" style="width:200px">Delete</button>
+					</form>
         </div><br>
         {% endfor %}
       </div>
