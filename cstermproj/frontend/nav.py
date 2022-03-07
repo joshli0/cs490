@@ -31,11 +31,10 @@ def build_exam():
 
 def grade_exams():
     return flask.render_template("grade_exams.html",
-    testResponses=get_all_responses())
+    submittedExams=get_all_responses())
 
 def review_exam():
-	return flask.render_template("review_exam.html",
-    responses=get_all_responses())
+	return flask.render_template("review_exam.html",)
 
 # Student pages
 def exam_list():
@@ -51,7 +50,6 @@ def take_exam():
     return flask.render_template("take_exam.html",
     name = name,
     examID = examID,
-    id=get_question_ids(),
     examQuestions=getquestionsintest(examID))
 
 def results():
