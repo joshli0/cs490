@@ -63,7 +63,8 @@ def exam_list():
     examNames=get_available_test_names())
 
 def view_results():
-    return flask.render_template("view_results.html")
+    return flask.render_template("view_results.html",
+    examList=get_reviewable_tests())
 
 def take_exam():
     name = request.args.get('title')
@@ -74,4 +75,25 @@ def take_exam():
     examQuestions=getquestionsintest(examID))
 
 def results():
-    return flask.render_template("results.html")
+    name = request.args.get('title')
+    student = flask.session['user']
+    examID = get_test_id(name)
+    questions = getquestionsintest(examID)
+    commentsPerQuestion,wholeTestComments=get_test_comments(examID, student)
+    autograderPoints=get_test_auto_grades(examID, student)
+    scorePerQuestion=[sum(val) for val in autograderPoints]
+    return flask.render_template("results.html",
+    name = name,
+    student = student,
+    examID = examID,
+    questions=questions,
+    commentsPerQuestion=commentsPerQuestion,
+    wholeTestComments=wholeTestComments,
+    autograderPoints=autograderPoints,
+    scorePerQuestion=scorePerQuestion,
+    answers=getTestResponses(examID, student),
+    code_outputs=get_test_case_outputs(examID, student),
+    function_names=get_test_response_actual_function_names(examID, student),
+    manualPoints=get_test_manual_grades(examID, student),
+    scoreTotal=sum(scorePerQuestion),
+    scoreMax=sum(q["points"] for q in questions))

@@ -29,15 +29,18 @@
 					<h2><th>Title</th></h2>
 					<th></th>
 				</tr>
-				<td>title</td>  <!-- delete later -->
-				<td><a href="./app?page=results"><button type="button" id="results">View Results</button></a></td>
 					{% for exam in examList %}
 					<tr>
-						<td>{{ exam.exam_title }}</td> <!-- CONFIRM, value here? -->
-						<td><a href="./app?page=results"><button type="button" id="results">View Results</button></a></td>
+						<td>{{ exam }}</td>
+						<td><a href="./app?page=results&title={{exam}}"><button type="button" id="results">View Results</button></a></td>
 						<!-- fix button to guide to correct exam results -->
 					</tr>
 					{% endfor %}
+
+					{% if (examList|length) == 0 %}
+						<h2>No exams available.</h2><br>
+					{% endif %}
+
 		</table>
 
 	</div> <!-- end page box -->
