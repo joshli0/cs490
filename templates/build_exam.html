@@ -26,7 +26,7 @@
 
 			<div class="greybox">
 
-  			<h3><label for="name">Title: {{ name }}</label></h3><br/> <!-- how to display current exam name -->
+  			<h3><label for="name">Title: {{ name }}</label></h3><br/>
 
 					<h3><label for="exam_questions">Questions:</label></h3>
 					{% for q in examQuestions %}
@@ -78,7 +78,7 @@
 
 				</div></br> <!-- end box -->
 
-	      <button type="button" style="width:95%">Finished Editing</button></br></br> <!-- is this needed -->
+	      <button type="button" style="width:95%">Finished Editing</button></br></br>
 
 	  </div> <!-- end column left/Exam -->
 
@@ -162,7 +162,7 @@
 		 				 </table>
 						 <form action="/add_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
 							 	<input type="number" min="0" max="100" name="point_value" step="1" value="10"></input>
-						 		<button type="submit" class="longButton">Add</button> <!-- change button to say Add to exam -->
+						 		<button type="submit" class="longButton">Add</button>
 					 	 </form>
 						 <!-- this button should have the question id so when you click add it adds that specific question to the exam -->
 						 {% endfor %} <!-- end table values -->

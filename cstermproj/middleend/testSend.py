@@ -193,17 +193,18 @@ def getquestionsintest(id):
     question_ids, point_values = get_questions_and_points(id)
     questions = []
 
+    if question_ids == None:
+        question_ids = []
+
     for i in range (len(question_ids)):
         question_info = get_question(question_ids[i])
         question_info['points'] = point_values[i]
         questions.append(question_info)
-    
+
     return questions
 
 def getQuestionNotInTest(id):
     questions = get_all_questions()
     exam_questions,_ = get_questions_and_points(id)
-    exam_questions - exam_questions or []
-    return [question for question in questions if question['ID'] not in exam_questions]
-
-    
+    exam_questions = exam_questions or []
+    return [question for question in questions if question['id'] not in exam_questions]

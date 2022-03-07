@@ -19,37 +19,19 @@
       </ul>
     </nav>
 
-
 <!-- Display Exam ------------------------------------------------------------->
 	<div class="full-page-box">
-		<form id="exam" method="POST"> <!-- exam response -->
+		<form action="/submit_test_response?name_or_id={{ name }}" method="POST"> <!-- exam response -->
 			<table class="viewExam" style="width:80%;">
-					{% for q in examQuestions %}
-					<tr>
-						<th><h3>Question:</h3>{{ q.description }}</th>
-						<th><h3>Point Value:</h3>{{ q.points }}</th>
-					</tr>
-						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
-					</tr>
-					<tr>
-						<th><h3>Question:</h3>{{ q.description }}</th>
-						<th><h3>Point Value:</h3>{{ q.points }}</th>
-					</tr>
-						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
-					</tr>
-					<tr>
-						<th><h3>Question:</h3>{{ q.description }}</th>
-						<th><h3>Point Value:</h3>{{ q.points }}</th>
-					</tr>
-						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
-					</tr>
-					<tr>
-						<th><h3>Question:</h3>{{ q.description }}</th>
-						<th><h3>Point Value:</h3>{{ q.points }}</th>
-					</tr>
-						<th><h3>Your code:</h3><textarea name="q_response" rows=8 cols=60 required></textarea></br>
-					</tr>
-					{% endfor %}
+				{% for i in range(examQuestions|length) %}
+					{% set q = (examQuestions[i]) %}
+						<tr>
+							<th><h3>Question:</h3>{{ q.description }}</th>
+							<th><h3>Point Value:</h3>{{ q.points }}</th>
+						</tr>
+							<th><h3>Your code:</h3><textarea id="response-{{ i }}" name="response-{{ i }}" rows=8 cols=60 required></textarea></br>
+						</tr>
+				{% endfor %}
 			</table></br></br>
 			<button type="submit" id="responseSubmit" class="longButton">Submit Exam</button></br></br></br>
 		</form> <!-- end exam responses -->
