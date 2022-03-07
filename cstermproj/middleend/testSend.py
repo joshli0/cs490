@@ -215,7 +215,9 @@ def get_submitted_exam_names_and_student_names():
     names = []
 
     for i in range(len(tests_and_students)):
-        testInfo = {"name": get_test_name(tests_and_students[i][0]), "student": get_username(tests_and_students[i][1])}
+        test_id = tests_and_students[i][0]
+        student_id = tests_and_students[i][1]
+        testInfo = {"name": get_test_name(test_id), "student": get_username(student_id), "graded": has_auto_grader_run(test_id, student_id), "released": get_test_grades_released(test_id, student_id)}
         names.append(testInfo)
 
     return names
