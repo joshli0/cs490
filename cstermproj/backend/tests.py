@@ -32,14 +32,15 @@ def create_test(name):
 	if does_test_exist(name):
 		return None
 	
-	query("insert into CS490Proj.Tests(Name) values (%s)", (name, ))
+	empty_json = to_json([])
+	query("insert into CS490Proj.Tests(Name, QuestionsInOrder, QuestionPoints) values (%s, %s, %s)", (name, empty_json, empty_json))
 	commit()
 	
 	return get_test_id(name)
 
 def does_test_contain_question(test_id, question_id):
-	results = query("select ID from CS490Proj.Tests where ID = %s and QuestionsInOrder @> array(values (%s))", (test_id, question_id))
-	return len(results) == 1
+	questions, _ = get_questions_and_points(test_id)
+	return questions is not None and question_id in questions
 
 def add_question(test_id, question_id, point_value):
 	if does_test_contain_question(test_id, question_id):
@@ -48,7 +49,11 @@ def add_question(test_id, question_id, point_value):
 	if not does_question_exist(question_id):
 		return False
 	
-	query("update CS490Proj.Tests set QuestionsInOrder = array_append(QuestionsInOrder, %s), QuestionPoints = array_append(QuestionPoints, %s) where ID = %s", (question_id, point_value, test_id))
+	questions, points = get_questions_and_points(test_id)
+	questions.append(question_id)
+	points.append(point_value)
+	
+	query("update CS490Proj.Tests set QuestionsInOrder = %s, QuestionPoints = %s where ID = %s", (to_json(questions), to_json(points), test_id))
 	commit()
 	
 	return True
@@ -58,17 +63,11 @@ def remove_question(test_id, question_id):
 		return False
 	
 	questions, points = get_questions_and_points(test_id)
-	questions = from_json(questions)
-	points = from_json(points)
-	
-	pos = questions.find(question_id)
+	pos = questions.index(question_id)
 	del questions[pos]
 	del points[pos]
 	
-	questions = to_json(questions)
-	points = to_json(points)
-	
-	query("update CS490Proj.Tests set QuestionsInOrder = %s, QuestionPoints = %s where ID = %s", (questions, points, test_id))
+	query("update CS490Proj.Tests set QuestionsInOrder = %s, QuestionPoints = %s where ID = %s", (to_json(questions), to_json(points), test_id))
 	commit()
 	
 	return True
@@ -80,7 +79,7 @@ def get_questions_and_points(name_or_id):
 	results = query("select QuestionsInOrder, QuestionPoints from CS490Proj.Tests where ID = %s", (name_or_id, ))
 	
 	if len(results) == 1:
-		return results[0]
+		return from_json(results[0][0]), from_json(results[0][1])
 
 def can_delete_test(name):
 	if not does_test_exist(name):
@@ -100,6 +99,13 @@ def delete_test(name):
 	commit()
 	
 	return True
+
+def delete_all_responses(name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	query("delete from CS490Proj.TestResponses where WhichTest = %s", (name_or_id, ))
+	commit()
 
 def get_user_id(username):
 	response = query("select ID from CS490Proj.Users where Username = %s", (username, ))
