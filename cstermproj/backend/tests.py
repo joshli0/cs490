@@ -208,7 +208,7 @@ def get_test_grades_released(name_or_id, student_name_or_id):
 	results = query("select ResultsReleased from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
-		return [from_json(res) for res in results[0][0]]
+		return results[0][0]
 
 def set_test_auto_grades(name_or_id, student_name_or_id, auto_grades):
 	if isinstance(name_or_id, str):
@@ -230,7 +230,7 @@ def get_test_auto_grades(name_or_id, student_name_or_id):
 	results = query("select AutoGraderGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
-		return results[0][0]
+		return [from_json(g) for g in results[0][0]]
 
 def set_test_response_actual_function_names(name_or_id, student_name_or_id, function_name):
 	if isinstance(name_or_id, str):
