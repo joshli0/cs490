@@ -33,19 +33,21 @@ def send(flaskapp):
     @flaskapp.route("/remove_question", methods = ["POST", "GET", "DELETE"])
     def removeQuestion():
         data = request.values
-        if 'test_id' in data and 'question_id' in data and \
-            'point_value' in data:
-            test_id = data['test_id']
-            question_id = data['question_id']
+        redir = "manage_exams"
+        if 'test_id' in data and 'question_id' in data:
+            test_id = int(data['test_id'])
+            question_id = int(data['question_id'])
             remove_question(test_id, question_id)
+            redir = "build_exam&title=" + get_test_name(test_id)
 
-        return redirect('/app?page=manage_exams')
+        return redirect('/app?page=' + redir)
 
     @flaskapp.route("/delete_test", methods = ["POST", "GET", "DELETE"])
     def deleteTest():
         data = request.values
         if 'name' in data:
             name = data['name']
+            delete_all_responses(name)
             delete_test(name)
 
         return redirect('/app?page=manage_exams')
