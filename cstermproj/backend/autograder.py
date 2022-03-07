@@ -65,7 +65,7 @@ def check_function_definitions(code, function_name):
 				return code, function_name_actual, True
 		
 		code = function_name_re.sub("def " + function_name + "(", code)
-		function_name_actual = function_def[0]
+		function_name_actual = function_definition_names[0]
 	else:
 		function_name_actual = "(No functions found.)"
 	
