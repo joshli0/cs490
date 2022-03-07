@@ -267,3 +267,13 @@ def get_available_test_names():
             names.append(get_test_name(id))
     
     return names
+
+def get_reviewable_tests():
+    username = flask.session['user']
+    tests_taken = get_tests_taken_by(username)
+    names = []
+    for i in tests_taken:
+        if get_test_grades_released(i, username):
+            names.append(get_test_name(i))
+    return names
+    
