@@ -24,51 +24,73 @@
 	<div class="full-page-box">
 		<table style="width:100%;">
 				<tr> <!-- headers -->
+					<h2><th>Question</th></h2>
 					<h2><th>Response</th></h2>
           <h2><th>Expected</th></h2>
-          <h2><th>Run</th></h2>
-          <h2><th>Points Received</th></h2>
+          <h2><th>Actual</th></h2>
+          <h2><th>Autograder Points</th></h2>
           <h2><th>Max Points</th></h2>
           <h2><th>Override Points</th></h2>
           <h2><th>Comment</th></h2>
 				</tr>
 
-        <!-- example, delete later -->
-        <tr>
-					<td>Student response</td>
-          <td>function(input) -> result</td>
-					<td>student ouput</td>
-          <td>--</td>
-          <td>--</td>
-          <td><input type="number" name="pointCorrection"></td>
-          <td><textarea name="comment"></textarea></td>
-        </tr>
-				<!-- example, delete later -->
 
-				{% for r in responses %} <!-- what to use here? -->
+				{% for qnum in range(questions|length) %}
+				{% set q = questions[qnum] %}
+				{% set numTestCases = (questions[qnum].testcaseoutputs|length) %}
+				{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
+				{% set numGrades = numTestCases+1 %}
 				<tr>
-					<td>{{ question.response }}</td>
-          {% for case in question.testcases %}
-             <td>{{ case.testinput }} -> {{ case.testoutput }}</td></br>
-          {% endfor %}
-					<td>need their output</td>
-          <td>--</td>
-          <td>--</td>
-          <td><input type="number" class="numberfield" name="pointCorrection"></td>
-          <td><textarea name="comment"></textarea></td>
+					<td rowspan="{{numGrades}}">
+						Title: {{ q.title }}<br>
+						Total Points: {{ q.points }}<br>
+						Prompt: {{ q.description }}
+					</td>
+
+					<td rowspan="{{numGrades}}"><pre>{{ answers[qnum] }}</pre></td>
+
+				  <td>Function should be named: {{ q.functionname }}</td>
+
+					<td>{{ function_names[qnum] }}</td>
+
+          <td>+{{ autograderPoints[qnum][0] }}</td>
+
+          <td>{{ pointsPerThing }}</td>
+
+          <td>+<input type="number" class="numberfield" value="{{ manualPoints[qnum][0] }}" name="pointCorrection"></td>
+          <td rowspan="{{numGrades}}"><textarea name="comment" value="test"></textarea></td>
         </tr>
-        <td colspan="3" style=text-align:right;><b>Total:</b></td>
+
+				{% for tcnum in range(numTestCases) %}
+				<tr>
+				  <td>{{ q.functionname }}({{ q.testcaseargs[tcnum] }}) -> {{ q.testcaseoutputs[tcnum] }}</td>
+
+					<td>
+						{% if code_outputs[qnum][tcnum] is not none %}
+							{{ code_outputs[qnum][tcnum] }}
+						{% else %}
+							Code crashed.
+						{% endif %}
+					</td>
+
+          <td>+{{ autograderPoints[qnum][tcnum+1] }}</td>
+
+          <td>{{ pointsPerThing*2 }}</td>
+
+          <td>+<input type="number" class="numberfield" value="{{ manualPoints[qnum][tcnum+1] }}"name="pointCorrection"></td>
+        </tr>
+				{% endfor %}
+
+        <td colspan="4" style=text-align:right;><b>Total:</b></td>
         <td>score</td>
         <td>exam total</td>
 				<td>override total</td>
 				{% endfor %}
-			<tr>
-				<td colspan="3" style=text-align:right;><b>Final Score:</b></td>
-				<td colspan="4" style=text-align:left;><b>score</b></td>
-			</tr>
-		</table></br>
+		</table><br>
 
-		<h3>Test Comment:</h3><textarea name="comments_on_whole_test" cols=100 rows=5></textarea>
+		<h3>Overall Test Comments:</h3><textarea name="comments_on_whole_test" value="test" cols=100 rows=5></textarea><br><br>
+
+		<button type="button" onclick="location.href='./app?page=grade_exams'">Finish Review</button><br>
 
 	</div> <!-- end page box -->
 

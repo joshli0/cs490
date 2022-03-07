@@ -31,10 +31,26 @@ def build_exam():
 
 def grade_exams():
     return flask.render_template("grade_exams.html",
-    submittedExams=get_all_responses())
+    submittedExams=get_submitted_exam_names_and_student_names())
 
 def review_exam():
-	return flask.render_template("review_exam.html",)
+    name = request.args.get('exam')
+    student = request.args.get('student')
+    examID = get_test_id(name)
+    questions = getquestionsintest(examID)
+    commentsPerQuestion,wholeTestComments=get_test_comments(examID, student)
+    return flask.render_template("review_exam.html",
+    name = name,
+    student = student,
+    examID = examID,
+    questions=questions,
+    commentsPerQuestion=commentsPerQuestion,
+    wholeTestComments=wholeTestComments,
+    answers=getTestResponses(examID, student),
+    code_outputs=get_test_case_outputs(examID, student),
+    function_names=get_test_response_actual_function_names(examID, student),
+    autograderPoints=get_test_auto_grades(examID, student),
+    manualPoints=get_test_manual_grades(examID, student))
 
 # Student pages
 def exam_list():

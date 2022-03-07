@@ -34,16 +34,12 @@
 					<h2><th>Student</th></h2>
 					<h2><th>Exam</th></h2>
 				</tr>
-				<td>Student Name</td> <!-- ex. delete later -->
-				<td>Exam Title</td> <!-- ex. delete later -->
-				<td><a href="./app?page=review_exam"><button type="submit" id="reviewExam">Review</button></a></td><!-- ex. delete later -->
 
 					{% for exam in submittedExams %}
 					<tr>
-						<td>{{ student_name }}</td> <!-- fix these -->
-						<td>{{ exam_name }}</td> <!-- fix these -->
-						<td><a href="./app?page=review_exam"><button type="submit" id="reviewExam">Review</button></a></td>
-						<!-- fix href to direct to correct exam responses -->
+						<td>{{ exam.student }}</td> <!-- fix these -->
+						<td>{{ exam.name }}</td> <!-- fix these -->
+						<td><a href="./app?page=review_exam&student={{ exam.student }}&exam={{ exam.name}}"><button type="submit" style="width:200px">Review</button></a></td>
 					{% endfor %}
 				</tr>
 		</table><br>
