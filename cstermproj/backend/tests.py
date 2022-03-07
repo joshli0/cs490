@@ -161,7 +161,7 @@ def get_test_comments(name_or_id, student_name_or_id):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	results = query("select InstructorComments, CommentsOnWholeTest from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	results = query("select InstructorComments, CommentsOnWholeTest from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
 		return results[0]
