@@ -29,6 +29,10 @@
 					</div><br>
 				{% endfor %}
 
+				{% if (examNames|length) == 0 %}
+					<h2>No exams available.</h2><br>
+				{% endif %}
+
 		</div> <!-- end page box -->
 
 	</body>
