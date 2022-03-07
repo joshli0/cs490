@@ -26,7 +26,7 @@
 
 			<div class="greybox">
 
-  			<h3><label for="name">Title: {{ name }}</label></h3><br/>
+  			<h3><label for="name">Title: {{ name }}</label></h3><br>
 
 					<h3><label for="exam_questions">Questions:</label></h3>
 					{% for q in examQuestions %}
@@ -64,7 +64,7 @@
 								 {% set args = q.testcaseargs %}
 								 {% set outputs = q.testcaseoutputs %}
 								 {% for i in range(args|length)%}
-										{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
+										{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
 								 {% endfor %}
 						 </td>
 						</tr>
@@ -72,13 +72,13 @@
 						<th>Question Points</th>
 						<td>{{ q.points }}</td>
 					</tr>
-					 </br>
+					 <br>
 				 </table>
 				{% endfor %}
 
-				</div></br> <!-- end box -->
+				</div><br> <!-- end box -->
 
-	      <button type="button" style="width:95%">Finished Editing</button></br></br>
+	      <button type="button" style="width:95%" onclick="location.href='./app?page=manage_exams'">Complete Editing</button><br><br>
 
 	  </div> <!-- end column left/Exam -->
 
@@ -86,7 +86,7 @@
 		  <div class="column right" style="background-color:#DFDFDF;">
           <div class="greybox">
 
-            <h3>Filter Questions</h3></br>
+            <h3>Filter Questions</h3><br>
 						<form action=/getAllQuestions method="GET">
 
 	            <label for="category">Category:</label>
@@ -94,23 +94,23 @@
 	              {% for c in categories %}
 	                <option value="{{ c }}">{{ c }}</option>
 	              {% endfor %}
-	            </select></br>
-	            </br>
+	            </select><br>
+	            <br>
 
 	            <label for="difficulty">Difficulty:</label>
 	            <select name="difficulty">
 	              {% for d in difficulties %}
 	                <option value="{{ d }}">{{ d }}</option>
 	              {% endfor %}
-	            </select></br></br>
+	            </select><br><br>
 
-							<button type="button">Apply</button> <!-- type: button or submit? -->
+							<button type="button">Apply</button>
 
 						</form>
-					</div></br>
+					</div><br>
 
 <!-- Select Questions --------------------------------------------------------->
-					<h2>Select Questions</h2></br>
+					<h2>Select Questions</h2><br>
 					<div class="greybox">
 						<!-- displaying table for each question in bank -->
 						{% for q in questionBank %}
@@ -148,26 +148,25 @@
 										 {% set args = q.testcaseargs %}
 										 {% set outputs = q.testcaseoutputs %}
 										 {% for i in range(args|length)%}
-										 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}</br>
+										 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
 										 {% endfor %}
 								 </td>
 			 				  </tr>
 
-								<tr>
-									<th>Question Points</th>
-									<td>{{ q.points }}</td>
-								</tr>
+								<form action="/add_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
 
-							 </br>
-		 				 </table>
-						 <form action="/add_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
-							 	<input type="number" min="0" max="100" name="point_value" step="1" value="10"></input>
-						 		<button type="submit" class="longButton">Add</button>
-					 	 </form>
-						 <!-- this button should have the question id so when you click add it adds that specific question to the exam -->
+									<tr>
+										<th>Set Points</th>
+										<td><input type="number" min="0" max="100" name="point_value" step="1" value="10"></input></td>
+									</tr>
+
+			 				 </table>
+
+						 	 <button type="submit" class="longButton">Add</button><br>
+					 	 </form><br>
 						 {% endfor %} <!-- end table values -->
 
-				</div></br> <!-- end box -->
+				</div><br> <!-- end box -->
 
 		  </div> <!-- end column right/Create Exam -->
 
