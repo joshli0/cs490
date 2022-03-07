@@ -16,3 +16,9 @@ def get_username(id):
 	
 	if results is not None and len(results) == 1:
 		return results[0][0]
+
+def get_user_id(username):
+	results = query("select ID from CS490Proj.Users where Username = %s", (username, ))
+	
+	if results is not None and len(results) == 1:
+		return results[0][0]
