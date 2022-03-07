@@ -74,6 +74,10 @@
 					</tr>
 					 <br>
 				 </table>
+				 <!-- button to remove question, fix -->
+				 <form action="/remove_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
+					 <button type="submit" class="longButton">Remove</button><br>
+				 </form><br>
 				{% endfor %}
 
 				</div><br> <!-- end box -->
