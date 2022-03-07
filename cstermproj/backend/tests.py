@@ -82,6 +82,10 @@ def get_questions_and_points(name_or_id):
 	if len(results) == 1:
 		return from_json(results[0][0]), from_json(results[0][1])
 
+def get_num_questions(name_or_id):
+	questions, _ = get_questions_and_points(name_or_id)
+	return len(questions)
+
 def can_delete_test(name):
 	if not does_test_exist(name):
 		return False

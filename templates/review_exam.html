@@ -58,7 +58,7 @@
           <td>{{ pointsPerThing }}</td>
 
           <td>+<input type="number" class="numberfield" value="{{ manualPoints[qnum][0] }}" name="pointCorrection"></td>
-          <td rowspan="{{numGrades}}"><textarea name="comment" value="test"></textarea></td>
+          <td rowspan="{{numGrades}}"><textarea name="comment">{{ commentsPerQuestion[qnum] }}</textarea></td>
         </tr>
 
 				{% for tcnum in range(numTestCases) %}
@@ -88,9 +88,9 @@
 				{% endfor %}
 		</table><br>
 
-		<h3>Overall Test Comments:</h3><textarea name="comments_on_whole_test" value="test" cols=100 rows=5></textarea><br><br>
+		<h3>Overall Test Comments:</h3><textarea name="comments_on_whole_test" cols=100 rows=5>{{ wholeTestComments }}</textarea><br><br>
 
-		<button type="button" onclick="location.href='./app?page=grade_exams'">Finish Review</button><br>
+		<button type="button" onclick="location.href='./app?page=grade_exams'">Submit & Release</button><br>
 
 	</div> <!-- end page box -->
 
