@@ -155,12 +155,7 @@ def getUserID(username):
 
 #get test responses
 def getTestResponses(name_or_id, student_name_or_id):
-    resps = get_test_responses(name_or_id, student_name_or_id)
-    
-    if resps is not None:
-        resps = [ r.replace("\r", "<br>") for r in resps ]
-    
-    return resps
+    return get_test_responses(name_or_id, student_name_or_id)
 
 #get test comments
 def getTestComments(name_or_id, student_name_or_id):
