@@ -26,6 +26,7 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 	
 	set_test_case_outputs(test_name_or_id, student_name_or_id, test_case_outputs)
 	set_test_auto_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
+	set_test_manual_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
 	set_test_response_actual_function_names(test_name_or_id, student_name_or_id, function_names)
 
 def grade_question(question_id, num_points, code):
