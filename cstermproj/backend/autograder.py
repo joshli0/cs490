@@ -12,18 +12,21 @@ def run_auto_grader_on_everything():
 def run_auto_grader(test_name_or_id, student_name_or_id):
 	auto_grader_grades = []
 	test_case_outputs  = []
+	function_names     = []
 	
 	responses = get_test_responses(test_name_or_id, student_name_or_id)
 	questions, points = get_questions_and_points(test_name_or_id)
 	
 	for i in range(len(questions)):
-		grades, outputs = grade_question(questions[i], points[i], responses[i])
+		grades, function_name_actual, outputs = grade_question(questions[i], points[i], responses[i])
 		
 		auto_grader_grades.append(grades)
 		test_case_outputs.append(outputs)
+		function_names.append(function_name_actual)
 	
 	set_test_case_outputs(test_name_or_id, student_name_or_id, test_case_outputs)
 	set_test_auto_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
+	get_test_response_actual_function_name(test_name_or_id, student_name_or_id, function_names)
 
 def grade_question(question_id, num_points, code):
 	function_name = get_question_function_name(question_id)
@@ -36,7 +39,7 @@ def grade_question(question_id, num_points, code):
 	points_for_correct_case = 2 * points_for_correct_name
 	grades = [ points_for_correct_name ] + ([ points_for_correct_case ] * num_test_cases)
 	
-	fixed_code, function_def_correct = check_function_definitions(code, function_name)
+	fixed_code, function_name_actual, function_def_correct = check_function_definitions(code, function_name)
 	fixed_code = remove_non_function_code(fixed_code)
 	
 	if not function_def_correct:
@@ -49,20 +52,24 @@ def grade_question(question_id, num_points, code):
 		if not success:
 			grades[test_case_num + 1] = 0
 	
-	return grades, real_outputs
+	return grades, function_name_actual, real_outputs
 
 def check_function_definitions(code, function_name):
 	function_definition_names = function_name_re.findall(code)
 	num_functions = len(function_definition_names)
+	function_name_actual = function_name
 	
 	if num_functions > 0:
 		for function_def in function_definition_names:
 			if function_def == function_name:
-				return code, True
+				return code, function_name_actual, True
 		
 		code = function_name_re.sub("def " + function_name + "(", code)
+		function_name_actual = function_def[0]
+	else:
+		function_name_actual = "(No functions found.)"
 	
-	return code, False
+	return code, function_name_actual, False
 
 def remove_non_function_code(code):
 	lines = code.split("\n")
