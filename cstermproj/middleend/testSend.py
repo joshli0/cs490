@@ -128,6 +128,41 @@ def send(flaskapp):
             set_test_case_outputs(name_or_id, student_name_or_id, test_case_outputs)
 
         return redirect('/app?page=take_exam')
+    
+    @flaskapp.route("/submit_exam_comments_and_grade_overrides", methods = ["POST", "GET"])
+    def setCommentsAndOverrides():
+        data = request.values
+        if 'exam' in data and 'student' in data and 'comments-on-whole-test' in data:
+            exam_name = data['exam']
+            student_name = data['student']
+            whole_test_comments = data['comments-on-whole-test']
+            
+            num_questions = get_num_questions(exam_name)
+            question_comments = []
+            point_values = []
+            
+            for q in range(num_questions):
+                n = str(q)
+                question_comments.append(data['comment-' + n])
+                
+                point_overrides = []
+                point_pos = 0
+                
+                while True:
+                    arg_name = 'override-' + n + '-' + str(point_pos)
+                    if arg_name not in data:
+                        break
+                    
+                    point_overrides.append(float(data[arg_name]))
+                    point_pos += 1
+                
+                point_values.append(point_overrides)
+            
+            set_test_comments(exam_name, student_name, question_comments, whole_test_comments)
+            set_test_manual_grades(exam_name, student_name, point_values)
+            set_test_grades_released(exam_name, student_name, True)
+
+        return redirect('/app?page=grade_exams')
 
 #get test id
 def getTestID(name):
@@ -215,7 +250,9 @@ def get_submitted_exam_names_and_student_names():
     names = []
 
     for i in range(len(tests_and_students)):
-        testInfo = {"name": get_test_name(tests_and_students[i][0]), "student": get_username(tests_and_students[i][1])}
+        test_id = tests_and_students[i][0]
+        student_id = tests_and_students[i][1]
+        testInfo = {"name": get_test_name(test_id), "student": get_username(student_id), "graded": has_auto_grader_run(test_id, student_id), "released": get_test_grades_released(test_id, student_id)}
         names.append(testInfo)
 
     return names

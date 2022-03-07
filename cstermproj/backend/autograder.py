@@ -28,6 +28,8 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 	set_test_auto_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
 	set_test_manual_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
 	set_test_response_actual_function_names(test_name_or_id, student_name_or_id, function_names)
+	
+	set_test_comments(test_name_or_id, student_name_or_id, [""] * get_num_questions(test_name_or_id), "")
 
 def grade_question(question_id, num_points, code):
 	function_name = get_question_function_name(question_id)

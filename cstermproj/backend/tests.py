@@ -82,6 +82,10 @@ def get_questions_and_points(name_or_id):
 	if len(results) == 1:
 		return from_json(results[0][0]), from_json(results[0][1])
 
+def get_num_questions(name_or_id):
+	questions, _ = get_questions_and_points(name_or_id)
+	return len(questions)
+
 def can_delete_test(name):
 	if not does_test_exist(name):
 		return False
@@ -219,6 +223,18 @@ def set_test_auto_grades(name_or_id, student_name_or_id, auto_grades):
 	
 	query("update CS490Proj.TestResponses set AutoGraderGrades = %s, AutoGraderRun = True where WhichTest = %s and WhichStudent = %s", ([to_json(grade) for grade in auto_grades], name_or_id, student_name_or_id))
 	commit()
+
+def has_auto_grader_run(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	result = query("select AutoGraderRun from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
+	
+	if result is not None and len(result) == 1:
+		return result[0][0]
 
 def get_test_auto_grades(name_or_id, student_name_or_id):
 	if isinstance(name_or_id, str):

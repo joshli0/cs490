@@ -26,8 +26,9 @@
 		<div class="greybox">
 		<table>
 			<colgroup>
-				<col span="1" style="width:40%;">
-				<col span="1" style="width:40%;">
+				<col span="1" style="width:35%;">
+				<col span="1" style="width:35%;">
+				<col span="1" style="width:10%;">
 				<col span="1" style="width:10%;">
 			</colgroup>
 				<tr>
@@ -39,7 +40,20 @@
 					<tr>
 						<td>{{ exam.student }}</td> <!-- fix these -->
 						<td>{{ exam.name }}</td> <!-- fix these -->
-						<td><a href="./app?page=review_exam&student={{ exam.student }}&exam={{ exam.name}}"><button type="submit" style="width:200px">Review</button></a></td>
+						<td>
+							{% if exam.graded %}
+								<a href="./app?page=review_exam&student={{ exam.student }}&exam={{ exam.name}}"><button type="submit" style="width:200px">Review</button></a>
+							{% else %}
+								Run autograder first.
+							{% endif %}
+						</td>
+						<td>
+							{% if exam.released %}
+								Released
+							{% else %}
+								Not Released
+							{% endif %}
+						</td>
 					{% endfor %}
 				</tr>
 		</table><br>
