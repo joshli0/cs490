@@ -1,3 +1,5 @@
+from json import loads as from_json, dumps as to_json
+
 from .dbconn import query, commit
 from .questions import does_question_exist
 
@@ -55,7 +57,18 @@ def remove_question(test_id, question_id):
 	if not does_test_contain_question(test_id, question_id):
 		return False
 	
-	query("update CS490Proj.Tests set QuestionsInOrder = array_remove(QuestionsInOrder, %s), QuestionPoints = array_remove(QuestionPoints, QuestionPoints[array_position(QuestionsInOrder, %s)]) where ID = %s", (question_id, question_id, test_id))
+	questions, points = get_questions_and_points(test_id)
+	questions = from_json(questions)
+	points = from_json(points)
+	
+	pos = questions.find(question_id)
+	del questions[pos]
+	del points[pos]
+	
+	questions = to_json(questions)
+	points = to_json(points)
+	
+	query("update CS490Proj.Tests set QuestionsInOrder = %s, QuestionPoints = %s where ID = %s", (questions, points, test_id))
 	commit()
 	
 	return True
@@ -112,7 +125,7 @@ def get_test_responses(name_or_id, student_name_or_id):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	results = query("select TestResponses from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
+	results = query("select Responses::text[] from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
 		return results[0][0]
@@ -146,7 +159,7 @@ def set_test_manual_grades(name_or_id, student_name_or_id, manual_grades):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	query("update CS490Proj.TestResponses set InstructorGrades = %s where WhichTest = %s and WhichStudent = %s", (manual_grades, name_or_id, student_name_or_id))
+	query("update CS490Proj.TestResponses set InstructorGrades = %s where WhichTest = %s and WhichStudent = %s", ([to_json(grade) for grade in manual_grades], name_or_id, student_name_or_id))
 	commit()
 
 def get_test_manual_grades(name_or_id, student_name_or_id):
@@ -159,7 +172,7 @@ def get_test_manual_grades(name_or_id, student_name_or_id):
 	results = query("select InstructorGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
-		return results[0][0]
+		return [from_json(res) for res in results[0][0]]
 
 def set_test_grades_released(name_or_id, student_name_or_id, released):
 	if isinstance(name_or_id, str):
@@ -178,10 +191,10 @@ def get_test_grades_released(name_or_id, student_name_or_id):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	results = query("select ResultsReleased from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	results = query("select ResultsReleased from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
-		return results[0][0]
+		return [from_json(res) for res in results[0][0]]
 
 def set_test_auto_grades(name_or_id, student_name_or_id, auto_grades):
 	if isinstance(name_or_id, str):
@@ -190,7 +203,7 @@ def set_test_auto_grades(name_or_id, student_name_or_id, auto_grades):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	query("update CS490Proj.TestResponses set AutoGraderGrades = %s, AutoGraderRun = True where WhichTest = %s and WhichStudent = %s", (manual_grades, name_or_id, student_name_or_id))
+	query("update CS490Proj.TestResponses set AutoGraderGrades = %s, AutoGraderRun = True where WhichTest = %s and WhichStudent = %s", ([to_json(grade) for grade in auto_grades], name_or_id, student_name_or_id))
 	commit()
 
 def get_test_auto_grades(name_or_id, student_name_or_id):
@@ -200,7 +213,7 @@ def get_test_auto_grades(name_or_id, student_name_or_id):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	results = query("select AutoGraderGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	results = query("select AutoGraderGrades from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
 		return results[0][0]
@@ -212,7 +225,7 @@ def set_test_case_outputs(name_or_id, student_name_or_id, test_case_outputs):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	query("update CS490Proj.TestResponses set TestCaseOutputsActual = %s where WhichTest = %s and WhichStudent = %s", (test_case_outputs, name_or_id, student_name_or_id))
+	query("update CS490Proj.TestResponses set TestCaseOutputsActual = %s where WhichTest = %s and WhichStudent = %s", ([to_json(out) for out in test_case_outputs], name_or_id, student_name_or_id))
 	commit()
 
 def get_test_case_outputs(name_or_id, student_name_or_id):
@@ -222,7 +235,7 @@ def get_test_case_outputs(name_or_id, student_name_or_id):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	results = query("select TestCaseOutputsActual from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (released, name_or_id, student_name_or_id))
+	results = query("select TestCaseOutputsActual from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
 	
 	if len(results) == 1:
-		return results[0][0]
+		return [from_json(res) for res in results[0][0]]
