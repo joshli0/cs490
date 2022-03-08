@@ -10,7 +10,7 @@ def setup(flaskapp):
 		if "user" in flask.session:
 			if url == "/login":
 				return flask.redirect("/app")
-		elif url not in ["/login", "/style.css", "/favicon.ico"]:
+		elif url not in ["/login", "/style.css", "/favicon.ico", "/script.js"]:
 			return flask.redirect("/login")
 	
 	@flaskapp.route("/login", methods = ["POST"])
