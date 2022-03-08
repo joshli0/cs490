@@ -133,7 +133,7 @@ def submit_test_response(name_or_id, student_name_or_id, responses):
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	query("insert into CS490Proj.TestResponses values (%s, %s, %s, False, null, null, null, null, null, False)", (name_or_id, student_name_or_id, responses))
+	query("insert into CS490Proj.TestResponses values (%s, %s, %s, False, null, null, null, null, null, null, False)", (name_or_id, student_name_or_id, responses))
 	commit()
 
 def get_test_responses(name_or_id, student_name_or_id):
