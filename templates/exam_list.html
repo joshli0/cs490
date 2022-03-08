@@ -2,15 +2,15 @@
 <html>
 
 	<head>
-		<title>Exams</title>
+		<title>Exam List</title>
     <link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
     <link rel='stylesheet' href="./style.css">
 		<script src="./script.js"></script>
 	</head>
 
-  <body>
+  <body style="background-color:#EFEFEF;">
 		<nav>
-      <label class="logo">Exams</label>
+      <label class="logo">Exam List</label>
       <ul>
 				<li><a href="./app?page=landing">Home</a></li>
 				<li><a href="./app?page=exam_list">Exam List</a></li>
@@ -20,7 +20,7 @@
     </nav>
 
 <!-- Exam List ---------------------------------------------------------------->
-		<div class="full-page-box">
+		<div class="review">
 
 				{% for name in examNames %}
 					<div class="greybox">

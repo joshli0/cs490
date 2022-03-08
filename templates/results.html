@@ -8,7 +8,7 @@
 		<script src="./script.js"></script>
 	</head>
 
-  <body>
+  <body style="background-color:#EFEFEF;">
 		<nav>
       <label class="logo">Results</label>
       <ul>
@@ -20,84 +20,85 @@
     </nav>
 
 <!-- View Exam ---------------------------------------------------------------->
-<div class="review">
-		<table style="width:100%;">
-				<tr> <!-- headers -->
-					<h2><th>Question</th></h2>
-					<h2><th>Response</th></h2>
-					<h2><th>Expected</th></h2>
-					<h2><th>Actual</th></h2>
-					<h2><th>Max Points</th></h2>
-					<h2><th>Points</th></h2>
-					<h2><th>Comment</th></h2>
-				</tr>
-				{% for qnum in range(questions|length) %}
-					{% set q = questions[qnum] %}
-					{% set numTestCases = (questions[qnum].testcaseoutputs|length) %}
-					{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
-					{% set numGrades = numTestCases+1 %}
-					<tr>
-						<td rowspan="{{numGrades}}">
-							Title: {{ q.title }}<br>
-							Total Points: {{ q.points }}<br>
-							Prompt: {{ q.description }}
-						</td>
+		<div class="review">
+			<table style="width:100%;">
+					<tr> <!-- headers -->
+						<th><h3>Question</h3></th>
+						<th><h3>Response</h3></th>
+						<th><h3>Expected</h3></th>
+						<th><h3>Actual</h3></th>
+						<th><h3>Max Points</h3></th>
+						<th><h3>Points</h3></th>
+						<th><h3>Comment</h3></th>
+					</tr>
+					{% for qnum in range(questions|length) %}
+						{% set q = questions[qnum] %}
+						{% set numTestCases = (questions[qnum].testcaseoutputs|length) %}
+						{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
+						{% set numGrades = numTestCases+1 %}
+						<tr>
+							<td rowspan="{{numGrades}}">
+								<b>Title:</b> {{ q.title }}<br>
+								<b>Total Points:</b> {{ q.points }}<br>
+								<b>Prompt:</b><br> {{ q.description }}
+							</td>
 
-						<td rowspan="{{numGrades}}"><pre>{{ answers[qnum] }}</pre></td>
+							<td rowspan="{{numGrades}}"><pre>{{ answers[qnum] }}</pre></td>
 
-						<td>Function should be named: {{ q.functionname }}</td>
+							<td>Function should be named: {{ q.functionname }}</td>
 
-						<td>{{ function_names[qnum] }}</td>
+							<td>{{ function_names[qnum] }}</td>
 
-						<td>{{ pointsPerThing }}</td>
+							<td>{{ pointsPerThing }}</td>
 
-						<td>+{{ points[qnum][0] }}</td>
+							<td>+{{ points[qnum][0] }}</td>
 
-				<td rowspan="{{numGrades}}">{{ commentsPerQuestion[qnum] }}</td>
-				</tr>
+					<td rowspan="{{numGrades}}">{{ commentsPerQuestion[qnum] }}</td>
+					</tr>
 
-				{% for tcnum in range(numTestCases) %}
-					<tr>
-						<td>{{ q.functionname }}({{ q.testcaseargs[tcnum] }}) -> {{ q.testcaseoutputs[tcnum] }}</td>
+					{% for tcnum in range(numTestCases) %}
+						<tr>
+							<td>{{ q.functionname }}({{ q.testcaseargs[tcnum] }}) -> {{ q.testcaseoutputs[tcnum] }}</td>
 
-						<td>
-							{% if code_outputs[qnum][tcnum] is not none %}
-								{{ code_outputs[qnum][tcnum] }}
-							{% else %}
-								Code crashed.
-							{% endif %}
-						</td>
+							<td>
+								{% if code_outputs[qnum][tcnum] is not none %}
+									{{ code_outputs[qnum][tcnum] }}
+								{% else %}
+									Code crashed.
+								{% endif %}
+							</td>
 
-			<td>{{ pointsPerThing*2 }}</td>
+				<td>{{ pointsPerThing*2 }}</td>
 
-			<td>+{{ points[qnum][tcnum+1] }}</td>
+				<td>+{{ points[qnum][tcnum+1] }}</td>
 
-		</tr>
-				{% endfor %}
+			</tr>
+					{% endfor %}
 
-		<td colspan="4" style=text-align:right;><b>Total:</b></td>
-		<td>{{ q.points }}</td>
-		<td>{{ (scorePerQuestion[qnum])|round(1) }}</td>
-				<td id="total-{{qnum}}"></td>
-				{% endfor %}
+			<td colspan="4" style=text-align:right;><b>Total:</b></td>
+			<td>{{ q.points }}</td>
+			<td>{{ (scorePerQuestion[qnum])|round(1) }}</td>
+					<td id="total-{{qnum}}"></td>
+					{% endfor %}
+			</table><br>
+
+			<table>
+
+			<tr>
+				<th><h3>Overall Test Comments:</h3></th>
+				<th><h3>Score:</h3></th>
+			</tr>
+
+			<tr>
+				<td>{{ wholeTestComments }}</td>
+				<td> {{ (scoreTotal)|round(1) }} / {{ scoreMax }}</td>
+			</tr>
+
 		</table><br>
 
-		<table>
+		<a href="/app?page=view_results"><button type="submit">Back to Exams</button></a><br><br>
 
-		<tr>
-			<th><h3>Overall Test Comments:</h3></th>
-			<th>Scores</th>
-		</tr>
-
-		<tr>
-			<td>{{ wholeTestComments }}</td>
-			<td> {{ (scoreTotal)|round(1) }} / {{ scoreMax }}</td>
-		</tr>
-
-	</table><br>
-
-		<a href="/app?page=view_results">Back to Exams</a>
-</div> <!-- end review -->
+		</div> <!-- end review -->
 
   </body>
 

@@ -8,7 +8,7 @@
 		<script src="./script.js"></script>
 	</head>
 
-  <body>
+  <body style="background-color:#EFEFEF;">
 		<nav>
       <label class="logo">Grade Exams</label>
       <ul>
@@ -21,7 +21,7 @@
     </nav>
 
 <!-- Select Exam -------------------------------------------------------------->
-	<div class="full-page-box">
+	<div class="review">
 		<h2>Submitted Exams</h2><br>
 		<div class="greybox">
 		<table>
@@ -34,6 +34,8 @@
 				<tr>
 					<h2><th>Student</th></h2>
 					<h2><th>Exam</th></h2>
+					<h2><th>Action</th><h2>
+					<h2><th>Status</th><h2>
 				</tr>
 
 					{% for exam in submittedExams %}

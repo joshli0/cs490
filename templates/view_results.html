@@ -8,7 +8,7 @@
 		<script src="./script.js"></script>
 	</head>
 
-	<body>
+	<body style="background-color:#EFEFEF;">
 		<nav>
       <label class="logo">Exam Results</label>
       <ul>
@@ -20,21 +20,13 @@
     </nav>
 
 <!-- Results List ------------------------------------------------------------->
-	<div class="full-page-box">
-		<table class="viewExam" style="width:800px;">
-			<colgroup>
-				<col span="1" style="width:75%;">
-			</colgroup>
-				<tr>
-					<h2><th>Title</th></h2>
-					<th></th>
-				</tr>
+	<div class="review">
+
 					{% for exam in examList %}
-					<tr>
-						<td>{{ exam }}</td>
-						<td><a href="./app?page=results&title={{exam}}"><button type="button" id="results">View Results</button></a></td>
-						<!-- fix button to guide to correct exam results -->
-					</tr>
+						<div class="greybox">
+							<h3>Title: {{ exam }}</h3><br>
+								<a href="./app?page=results&title={{exam}}"><button type="button" id="results">View Results</button></a>
+						</div><br>
 					{% endfor %}
 
 					{% if (examList|length) == 0 %}

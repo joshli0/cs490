@@ -25,7 +25,7 @@
 		  <div class="column left" style="background-color:#DFDFDF;">
           <div class="greybox">
 <!-- Filter Questions  -------------------------------------------------------->
-            <h3>Filter Questions</h3><br>
+            <h2>Filter Questions:</h2><br>
 						<form action=/getAllQuestions method="GET">
 
 	            <label for="category">Category:</label>
@@ -49,7 +49,7 @@
 					</div><br>
 
 <!-- Select Questions --------------------------------------------------------->
-					<h2>Select Questions</h2><br>
+					<h2>Select Questions:</h2><br>
 					<div class="greybox">
 						<!-- displaying table for each question in bank -->
 						{% for q in questionBank %}
@@ -109,14 +109,14 @@
 
 		  </div> <!-- end column left/Question Bank -->
 
-<!-- Create Exam -------------------------------------------------------------->
+<!-- Current Exam ------------------------------------------------------------->
 			<div class="column right" style="background-color:#DFDFDF;">
 
 				<div class="greybox">
 
-	  			<h3><label for="name">Title: {{ name }}</label></h3><br>
+					<h2><label for="name">Title: {{ name }}</label></h2><br>
+					<h2><label for="exam_questions">Questions:</label></h2>
 
-						<h3><label for="exam_questions">Questions:</label></h3>
 						{% for q in examQuestions %}
 						<table style="width:100%">
 							<colgroup>
