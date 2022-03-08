@@ -1,10 +1,15 @@
+from os import environ
+
 from secrets import token_urlsafe
 
 from flask import Flask
+from flask_session import Session
 
 from .frontend  import startup as start_front
 from .middleend import startup as start_middle
 from .backend   import startup as start_back
+
+from .backend.dbconn import get_environment_var, con
 
 def startup():
 	flaskapp = Flask(
@@ -14,9 +19,21 @@ def startup():
 		template_folder = "../templates/"
 	)
 	
-	flaskapp.secret_key = token_urlsafe(16)
+	key = get_environment_var("SESSION_SECRET_KEY")
+	if key is None:
+		print("Warning: Generating RANDOM session key, this WILL NOT WORK in production!")
+		key = token_urlsafe(16)
+	flaskapp.secret_key = key
 	
 	start_back()
+	
+	flaskapp.config["SESSION_TYPE"] = "sqlalchemy"
+	flaskapp.config["SESSION_SQLALCHEMY"] = con
+	flaskapp.config["SESSION_SQLALCHEMY_TABLE"] = "sessions"
+	
+	s = Session(flaskapp)
+	s.app.session_interface.db.create_all()
+	
 	start_middle(flaskapp)
 	start_front(flaskapp)
 	
