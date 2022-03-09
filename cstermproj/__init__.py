@@ -9,7 +9,7 @@ from .frontend  import startup as start_front
 from .middleend import startup as start_middle
 from .backend   import startup as start_back
 
-from .backend.dbconn import get_environment_var, con
+from .backend.dbconn import get_environment_var, get_db_uri
 
 def startup():
 	flaskapp = Flask(
@@ -28,8 +28,9 @@ def startup():
 	start_back()
 	
 	flaskapp.config["SESSION_TYPE"] = "sqlalchemy"
-	flaskapp.config["SESSION_SQLALCHEMY"] = con
 	flaskapp.config["SESSION_SQLALCHEMY_TABLE"] = "sessions"
+	flaskapp.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
+	flaskapp.config["SQLALCHEMY_DATABASE_URI"] = get_db_uri().replace("postgres", "postgresql+psycopg2")
 	
 	s = Session(flaskapp)
 	s.app.session_interface.db.create_all()

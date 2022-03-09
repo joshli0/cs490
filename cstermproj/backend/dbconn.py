@@ -3,14 +3,19 @@ import os
 import psycopg2
 import psycopg2.extras
 
+uri = None
 con = None
 
 def get_environment_var(name):
 	return os.environ[name] if name in os.environ else None
 
 def connect():
-	global con
-	con = psycopg2.connect(get_environment_var("DATABASE_URL"), sslmode = "require")
+	global uri, con
+	uri = get_environment_var("DATABASE_URL")
+	con = psycopg2.connect(uri, sslmode = "require")
+
+def get_db_uri():
+	return uri
 
 def query(query, *args, as_dict = False):
 	cur_params = {}
