@@ -55,9 +55,27 @@
 	      	</select><br>
 					<br>
 
+					<h3><label for="constraint">Constraint:</label></h3>
+					<!-- use jinja to loop through constraint options once added to database -->
+					<!--
+					{% for c in constraints %}
+						<input type="radio" name="constraint" value="{{ c }}">
+						<label for="{{ c }}">{{ c }}</label><br>
+					{% endfor %}
+					-->
+					<input type="radio" name="constraint" value="for-loop">
+					<label for="for-loop">For Loop</label><br>
+					<input type="radio" name="constraint" value="while-loop">
+					<label for="while-loop">While Loop</label><br>
+					<input type="radio" name="constraint" value="recursion">
+					<label for="recursion">Recursion</label><br>
+					<input type="radio" name="constraint" value="no-constraint" checked>
+					<label for="no-constraint">No Constraint</label><br>
+					<br>
+
 					<h3>Test Cases:</h3>(For multiple values, separate with a space)<br><br>
 					<label for="testcasecount">Number of Test Cases:</label>
-					<input type="number" name="testcasecount" id="testcasecount" min="2" max="50" step="1" value="2" oninput="testcasecountchanged()"/><br><br>
+					<input type="number" name="testcasecount" id="testcasecount" min="2" max="5" step="1" value="2" oninput="testcasecountchanged()"/><br><br>
 					<div id="testCases"></div> <!-- displays form fields on click -->
 					<!-- <button type="button" id="addtestcase" onclick="addTestCase()">Add Test Case</button><br> -->
 
@@ -74,7 +92,8 @@
 		   <div class="greybox">
 
 		     <h3>Filter Questions</h3><br>
-					<form action="/app?page=manage_questions" method="POST">
+				 	<!-- need function that returns filtered questions -->
+					<form action="/filter_questions" method="POST">
 
 		        <label for="category">Category:</label>
 		        <select name="category">
@@ -91,7 +110,11 @@
 		          {% endfor %}
 		        </select><br><br>
 
-						<button type="button">Apply</button> <!-- type: button or submit? -->
+						<label for="keywords">Keyword(s):</label>
+						<input type="text" name="keywords" style="width:150px"><br>
+						<br>
+
+						<button type="button">Apply</button> <!-- type: submit, once function created -->
 
 					</form>
 				</div><br>
