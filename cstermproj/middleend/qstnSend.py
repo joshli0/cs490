@@ -8,12 +8,13 @@ def send(flaskapp):
     def createQuestion():
         data = request.values
         if 'title' in data and 'description' in data and 'difficulty' in data \
-            and 'category' in data and 'function_name' in data:
+            and 'category' in data and 'function_name' in data and 'constraint' in data:
             title = data['title']
             description = data['description']
             difficulty = data['difficulty']
             category = data['category']
             function_name = data['function_name']
+            constraint = data['constraint']
             
             test_case_args = []
             test_case_results = []
@@ -22,7 +23,7 @@ def send(flaskapp):
                 test_case_args.append(data['test_case_args_' + num])
                 test_case_results.append(data['test_case_results_' + num])
 
-            create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results)
+            create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results, constraint)
         
         return redirect('/app?page=manage_questions')
     

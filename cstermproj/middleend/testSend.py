@@ -164,6 +164,18 @@ def send(flaskapp):
 
         return redirect('/app?page=grade_exams')
 
+'''    @flaskapp.route('/set_test_case_detected_constraints', methods = ["POST", "GET"])
+    def setTestCaseDetectedConstraints():
+        data = request.values
+        if 'name_or_id' in data and 'student_name_or_id' in data and 'constraints' in data:
+            name_or_id = data['name_or_id']
+            student_name_or_id = data['student_name']
+            constraints = data['constraints']
+
+            return set_test_case_detected_constraints(name_or_id, student_name_or_id, constraints)
+
+        return redirect('')'''
+
 #get test id
 def getTestID(name):
     return get_test_id(name)
@@ -224,7 +236,7 @@ def getAllResponses():
 def getTestCaseOutputs(name_or_id, student_name_or_id):
     return get_test_case_outputs(name_or_id, student_name_or_id)
 
-
+#get questions in test
 def getquestionsintest(id):
     question_ids, point_values = get_questions_and_points(id)
     questions = []
@@ -239,12 +251,14 @@ def getquestionsintest(id):
 
     return questions
 
+#get question not in test
 def getQuestionNotInTest(id):
     questions = get_all_questions()
     exam_questions,_ = get_questions_and_points(id)
     exam_questions = exam_questions or []
     return [question for question in questions if question['id'] not in exam_questions]
 
+#get submitted exam names and student names
 def get_submitted_exam_names_and_student_names():
     tests_and_students = get_all_responses()
     names = []
@@ -257,6 +271,7 @@ def get_submitted_exam_names_and_student_names():
 
     return names
 
+#get available test names
 def get_available_test_names():
     ids = getTestIDS()
     ids_taken = get_tests_taken_by(flask.session["user"])
@@ -268,6 +283,7 @@ def get_available_test_names():
     
     return names
 
+#get reviewable tests
 def get_reviewable_tests():
     username = flask.session['user']
     tests_taken = get_tests_taken_by(username)
@@ -276,4 +292,8 @@ def get_reviewable_tests():
         if get_test_grades_released(i, username):
             names.append(get_test_name(i))
     return names
+    
+'''def getTestCaseDetectedConstraints(name_or_id, student_name_or_id):
+    return get_test_case_detected_constraints(name_or_id, student_name_or_id)'''
+
     
