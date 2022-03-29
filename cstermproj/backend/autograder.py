@@ -59,9 +59,11 @@ def grade_question(question_id, num_points, code):
 	if has_constraint:
 		constraint_matched = True
 		
-		if constraint.lower() in ["for", "while"]:
-			if not constraint.lower() in code.lower():
-				constraint_matched = False
+		for possible_constraint in ["for", "while"]:
+			if possible_constraint in constraint.lower():
+				if not constraint.lower() in code.lower():
+					constraint_matched = False
+					break
 		
 		if constraint.lower() == "recursion":
 			if code.lower().count(function_name) < 2:
