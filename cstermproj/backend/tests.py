@@ -299,7 +299,7 @@ def set_test_case_detected_constraints(name_or_id, student_name_or_id, constrain
 	if isinstance(student_name_or_id, str):
 		student_name_or_id = get_user_id(student_name_or_id)
 	
-	query("update CS490Proj.TestResponses set ConstraintsDetected = %s where WhichTest = %s and WhichStudent = %s", constraints, name_or_id, student_name_or_id)
+	query("update CS490Proj.TestResponses set ConstraintsDetected = %s where WhichTest = %s and WhichStudent = %s", (constraints, name_or_id, student_name_or_id))
 	commit()
 
 def get_test_case_detected_constraints(name_or_id, student_name_or_id):
