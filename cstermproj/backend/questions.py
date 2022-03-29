@@ -51,22 +51,18 @@ def get_question_titles():
 	return query("select ID, Title from CS490Proj.QuestionBank", as_dict = True)
 
 def get_question(id):
-	results = query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[] from CS490Proj.QuestionBank where ID = %s", (id, ), as_dict = True)
+	results = query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[], ConstraintType from CS490Proj.QuestionBank where ID = %s", (id, ), as_dict = True)
 	
 	if results is not None and len(results) == 1:
 		return results[0]
 
-def get_all_questions(title_substring = None, description_substring = None, category = None, difficulty = None, function_name_substring = None):
+def get_all_questions(title_or_desc_substring = None, category = None, difficulty = None, function_name_substring = None):
 	filters = ""
 	filter_values = []
 	
-	if title_substring is not None:
-		filters += " Title ilike %s and"
-		filter_values.append("%" + title_substring + "%")
-	
-	if description_substring is not None:
-		filters += " Description ilike %s and"
-		filter_values.append("%" + description_substring + "%")
+	if title_or_desc_substring is not None:
+		filters += " ((Title ilike %s) or (Description ilike %s)) and"
+		filter_values += (["%" + title_or_desc_substring + "%"] * 2)
 	
 	if category is not None:
 		filters += " Category = %s and"
@@ -80,10 +76,10 @@ def get_all_questions(title_substring = None, description_substring = None, cate
 		filters += " FunctionName ilike %s and"
 		filter_values.append("%" + function_name_substring + "%")
 	
-	return query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[] from CS490Proj.QuestionBank where" + filters + " true", filter_values, as_dict = True)
+	return query("select ID, Title, Description, Difficulty, Category, FunctionName, TestCaseArgs::text[], TestCaseOutputs::text[], ConstraintType from CS490Proj.QuestionBank where" + filters + " true", filter_values, as_dict = True)
 
-def create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results):
-	query("insert into CS490Proj.QuestionBank(Title, Description, Difficulty, Category, FunctionName, TestCaseArgs, TestCaseOutputs) values (%s, %s, %s, %s, %s, %s, %s)", (title, description, difficulty, category, function_name, test_case_args, test_case_results))
+def create_question(title, description, difficulty, category, function_name, test_case_args, test_case_results, constraint):
+	query("insert into CS490Proj.QuestionBank(Title, Description, Difficulty, Category, FunctionName, TestCaseArgs, TestCaseOutputs, ConstraintType) values (%s, %s, %s, %s, %s, %s, %s, %s)", (title, description, difficulty, category, function_name, test_case_args, test_case_results, constraint))
 	commit()
 
 def edit_question(id, title, description, difficulty, category, function_name, test_case_args, test_case_results):
@@ -92,6 +88,12 @@ def edit_question(id, title, description, difficulty, category, function_name, t
 
 def get_question_function_name(id):
 	result = query("select FunctionName from CS490Proj.QuestionBank where ID = %s", (id, ))
+	
+	if len(result) == 1:
+		return result[0][0]
+
+def get_question_constraint(id):
+	result = query("select ConstraintType from CS490Proj.QuestionBank where ID = %s", (id, ))
 	
 	if len(result) == 1:
 		return result[0][0]

@@ -291,3 +291,25 @@ def get_test_case_outputs(name_or_id, student_name_or_id):
 	
 	if len(results) == 1:
 		return [from_json(res) for res in results[0][0]]
+
+def set_test_case_detected_constraints(name_or_id, student_name_or_id, constraints):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	query("update CS490Proj.TestResponses set ConstraintsDetected = %s where WhichTest = %s and WhichStudent = %s", constraints, name_or_id, student_name_or_id)
+	commit()
+
+def get_test_case_detected_constraints(name_or_id, student_name_or_id):
+	if isinstance(name_or_id, str):
+		name_or_id = get_test_id(name_or_id)
+	
+	if isinstance(student_name_or_id, str):
+		student_name_or_id = get_user_id(student_name_or_id)
+	
+	results = query("select ConstraintsDetected::text[] from CS490Proj.TestResponses where WhichTest = %s and WhichStudent = %s", (name_or_id, student_name_or_id))
+	
+	if len(results) == 1:
+		return results[0][0]

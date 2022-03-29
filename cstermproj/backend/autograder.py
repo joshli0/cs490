@@ -10,43 +10,66 @@ def run_auto_grader_on_everything():
 		run_auto_grader(test_id, student_id)
 
 def run_auto_grader(test_name_or_id, student_name_or_id):
-	auto_grader_grades = []
-	test_case_outputs  = []
-	function_names     = []
+	auto_grader_grades   = []
+	test_case_outputs    = []
+	function_names       = []
+	detected_constraints = []
 	
 	responses = get_test_responses(test_name_or_id, student_name_or_id)
 	questions, points = get_questions_and_points(test_name_or_id)
 	
 	for i in range(len(questions)):
-		grades, function_name_actual, outputs = grade_question(questions[i], points[i], responses[i])
+		grades, function_name_actual, outputs, constraint = grade_question(questions[i], points[i], responses[i])
 		
 		auto_grader_grades.append(grades)
 		test_case_outputs.append(outputs)
 		function_names.append(function_name_actual)
+		detected_constraints.append(constraint)
 	
 	set_test_case_outputs(test_name_or_id, student_name_or_id, test_case_outputs)
 	set_test_auto_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
 	set_test_manual_grades(test_name_or_id, student_name_or_id, auto_grader_grades)
 	set_test_response_actual_function_names(test_name_or_id, student_name_or_id, function_names)
+	set_test_case_detected_constraints(test_name_or_id, student_name_or_id, constraint)
 	
 	set_test_comments(test_name_or_id, student_name_or_id, [""] * get_num_questions(test_name_or_id), "")
 
 def grade_question(question_id, num_points, code):
 	function_name = get_question_function_name(question_id)
 	args, outputs = get_question_test_cases(question_id)
+	constraint = get_question_constraint(question_id)
+	has_constraint = (constraint is not None)
+	
+	detected_constraint = constraint
 	real_outputs = []
 	
 	num_test_cases = len(args)
-	total_things_receiving_points = float(num_test_cases * 2 + 1)
+	total_things_receiving_points = float(num_test_cases * 2 + 1 + (1 if has_constraint else 0))
 	points_for_correct_name = round(num_points / total_things_receiving_points, 2)
 	points_for_correct_case = 2 * points_for_correct_name
-	grades = [ points_for_correct_name ] + ([ points_for_correct_case ] * num_test_cases)
+	points_for_correct_constraint = points_for_correct_name if has_constraint else 0
+	grades = [ points_for_correct_name ] + ([ points_for_correct_case ] * num_test_cases) + ([ points_for_correct_constraint ] if has_constraint else [])
 	
 	fixed_code, function_name_actual, function_def_correct = check_function_definitions(code, function_name)
 	fixed_code = remove_non_function_code(fixed_code)
 	
 	if not function_def_correct:
 		grades[0] = 0
+	
+	if has_constraint:
+		constraint_matched = True
+		
+		if constraint.lower() in ["for", "while"]:
+			if not constraint.lower() in code.lower():
+				constraint_matched = False
+		
+		if constraint.lower() == "recursion":
+			if code.lower().count(function_name) < 2:
+				constraint_matched = False
+		
+		if not constraint_matched:
+			detected_constraint = "Not found"
+			grades[-1] = 0
 	
 	for test_case_num in range(num_test_cases):
 		output, success = run_test_case(fixed_code, function_name, args[test_case_num], outputs[test_case_num])
@@ -55,7 +78,7 @@ def grade_question(question_id, num_points, code):
 		if not success:
 			grades[test_case_num + 1] = 0
 	
-	return grades, function_name_actual, real_outputs
+	return grades, function_name_actual, real_outputs, detected_constraint
 
 def check_function_definitions(code, function_name):
 	function_definition_names = function_name_re.findall(code)

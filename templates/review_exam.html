@@ -37,7 +37,7 @@
 
 				{% for qnum in range(questions|length) %}
 					{% set q = questions[qnum] %}
-					{% set numTestCases = (questions[qnum].testcaseoutputs|length) %}
+					{% set numTestCases = (q.testcaseoutputs|length) %}
 					{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
 					{% set numGrades = numTestCases+1 %}
 					<tr>

@@ -1,5 +1,3 @@
-from os import environ
-
 from secrets import token_urlsafe
 
 from flask import Flask
