@@ -58,23 +58,30 @@
 									 <td>{{ q.difficulty }}</td>
 								</tr>
 								<tr>
-									 <th>Test Cases</th>
-									 <td>
-										 <!-- test cases -->
-										 {% set args = q.testcaseargs %}
-										 {% set outputs = q.testcaseoutputs %}
-										 {% for i in range(args|length)%}
-												{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
-										 {% endfor %}
-								 </td>
+
+								<tr>
+									<th>Constraint</th>
+									<td>{{ q.constrainttype }}</td>
 								</tr>
+
+								 <th>Test Cases</th>
+								 <td>
+									 <!-- test cases -->
+									 {% set args = q.testcaseargs %}
+									 {% set outputs = q.testcaseoutputs %}
+									 {% for i in range(args|length)%}
+											{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
+									 {% endfor %}
+							 </td>
+							</tr>
+
 							<tr>
 								<th>Question Points</th>
 								<td>{{ q.points }}</td>
 							</tr>
 							 <br>
 						 </table>
-						 <!-- button to remove question, fix -->
+						 <!-- button to remove question -->
 						 <form action="/remove_question?test_id={{ examID }}&question_id={{ q.id }}" method="POST">
 							 <button type="submit" class="longButton">Remove</button><br>
 						 </form><br>
@@ -91,6 +98,7 @@
           <div class="greybox">
 <!-- Filter Questions  -------------------------------------------------------->
             <h2>Filter Questions:</h2><br>
+						<!-- update once complete on manage questions page -->
 						<form action=/getAllQuestions method="GET">
 
 	            <label for="category">Category:</label>
@@ -146,6 +154,12 @@
 			 				     <td>{{ q.difficulty }}</td>
 			 				  </tr>
 			 				  <tr>
+
+								<tr>
+									<th>Constraint</th>
+									<td>{{ q.constrainttype }}</td>
+								</tr>
+
 			 				     <th>Test Cases</th>
 									 <td>
 										 <!-- test cases -->

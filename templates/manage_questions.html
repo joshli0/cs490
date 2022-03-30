@@ -56,19 +56,12 @@
 					<br>
 
 					<h3><label for="constraint">Constraint:</label></h3>
-					<!-- use jinja to loop through constraint options once added to database? -->
-					<!--
-					{% for c in constraints %}
-						<input type="radio" name="constraint" value="{{ c }}">
-						<label for="{{ c }}">{{ c }}</label><br>
-					{% endfor %}
-					-->
 					<input type="radio" name="constraint" value="for-loop">
-					<label for="for-loop">For Loop</label><br>
+					<label for="For-loop">For Loop</label><br>
 					<input type="radio" name="constraint" value="while-loop">
-					<label for="while-loop">While Loop</label><br>
+					<label for="While-loop">While Loop</label><br>
 					<input type="radio" name="constraint" value="recursion">
-					<label for="recursion">Recursion</label><br>
+					<label for="Recursion">Recursion</label><br>
 					<input type="radio" name="constraint" value="no-constraint" checked>
 					<label for="no-constraint">None</label><br>
 					<br>
@@ -91,7 +84,8 @@
 		   <div class="greybox">
 
 		     <h3>Filter Questions</h3><br>
-					<form action="/getAllQuestions" method="GET">
+					<form action="/app" method="GET">
+					<input type="hidden" name="page" value="manage_questions"></input>
 
 		        <label for="category">Category:</label>
 		        <select name="category">
@@ -145,16 +139,22 @@
 	 				     <td>{{ q.difficulty }}</td>
 	 				  </tr>
 	 				  <tr>
-	 				     <th>Test Cases</th>
-							 <td>
-								 <!-- test cases -->
-								 {% set args = q.testcaseargs %}
-								 {% set outputs = q.testcaseoutputs %}
-								 {% for i in range(args|length)%}
-								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
-								 {% endfor %}
-						 </td>
-	 				  </tr>
+
+						<tr>
+							<th>Constraint</th>
+							<td>{{ q.constrainttype }}</td>
+						</tr>
+
+ 				     <th>Test Cases</th>
+						 <td>
+							 <!-- test cases -->
+							 {% set args = q.testcaseargs %}
+							 {% set outputs = q.testcaseoutputs %}
+							 {% for i in range(args|length)%}
+							 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
+							 {% endfor %}
+					 </td>
+ 				  </tr>
 					 <br>
  				 </table>
 				 {% endfor %} <!-- end table values -->

@@ -23,23 +23,28 @@
 <!-- View Exam ---------------------------------------------------------------->
 	<div class="review">
 		<form action="/submit_exam_comments_and_grade_overrides">
-			<table style="width:100%;">
-				<tr> <!-- headers -->
-					<th><h3>Question</h3></th>
-					<th><h3>Response</h3></th>
-				  <th><h3>Expected</h3></th>
-				  <th><h3>Actual</h3></th>
-					<th><h3>Max Points</h3></th>
-				  <th><h3>Autograder Points</h3></th>
-				  <th><h3>Override Points</h3></th>
-				  <th><h3>Comment</h3></th>
-				</tr>
 
 				{% for qnum in range(questions|length) %}
 					{% set q = questions[qnum] %}
+					{% set hasConstraint = q.constrainttype is not none %}
 					{% set numTestCases = (q.testcaseoutputs|length) %}
-					{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
+					{% set thingsToGrade = 2*numTestCases+1 %}
 					{% set numGrades = numTestCases+1 %}
+					{% if hasConstraint %}
+						{% set thingsToGrade = thingsToGrade+1 %}
+						{% set numGrades = numGrades+1 %}
+					{% endif %}
+					{% set pointsPerThing = (q.points/(thingsToGrade|float))|round(2) %}
+					<table style="width:100%">
+						<tr> <!-- headers -->
+							<th><h3>Question</h3></th>
+							<th><h3>Response</h3></th>
+						  <th><h3>Expected</h3></th>
+						  <th><h3>Actual</h3></th>
+							<th><h3>Max Points</h3></th>
+						  <th><h3>Autograder Points</h3></th>
+						  <th><h3>Override Points</h3></th>
+						</tr>
 					<tr>
 						<td rowspan="{{numGrades}}">
 							<b>Title:</b> {{ q.title }}<br>
@@ -58,9 +63,20 @@
 			  		<td>+{{ autograderPoints[qnum][0] }}</td>
 
 					  <td>+<input type="number" id="override-{{ qnum }}-0"  oninput="updateQuestionPoints({{ qnum }},true)" class="numberfield" value="{{ manualPoints[qnum][0] }}" name="override-{{ qnum }}-0" step="0.01"></td>
-
-					  <td rowspan="{{numGrades+1}}"><textarea name="comment-{{ qnum }}">{{ commentsPerQuestion[qnum] }}</textarea></td>
 						</tr>
+
+						{% if hasConstraint %}
+						<td>Constraint: {{ q.constrainttype }}</td>
+
+						<td>{{ detectedConstraints[qnum] }}</td>
+
+						<td>{{ pointsPerThing }}</td>
+
+			  		<td>+{{ autograderPoints[qnum][numTestCases+1] }}</td>
+
+						 <td>+<input type="number" id="override-{{ qnum }}-{{ numTestCases+1 }}"  oninput="updateQuestionPoints({{ qnum }},true)" class="numberfield" value="{{ manualPoints[qnum][numTestCases+1] }}" name="override-{{ qnum }}-{{ numTestCases+1 }}" step="0.01"></td>
+
+						{% endif %}
 
 						{% for tcnum in range(numTestCases) %}
 							<tr>
@@ -80,14 +96,20 @@
 
 							  <td>+<input type="number" id="override-{{ qnum }}-{{ tcnum+1 }}" oninput="updateQuestionPoints({{ qnum }},true)" class="numberfield" value="{{ manualPoints[qnum][tcnum+1] }}"name="override-{{ qnum }}-{{ tcnum+1 }}" step="0.01"></td>
 							</tr>
+
 						{% endfor %}
 
 						<td colspan="4" style=text-align:right;><b>Total:</b></td>
 						<td>{{ q.points }}</td>
 						<td>{{ (scorePerQuestion[qnum])|round(1) }}</td>
 						<td id="total-{{qnum}}"></td>
+
+					</table><br>
+
+					<h3>Comments:</h3>
+					<textarea name="comment-{{ qnum }}" style="width:100%" rows=5>{{ commentsPerQuestion[qnum] }}</textarea><br><br>
+
 					{% endfor %}
-						</table><br>
 
 						<table style="width:100%;">
 

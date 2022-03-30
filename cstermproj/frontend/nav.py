@@ -55,7 +55,8 @@ def review_exam():
     function_names=get_test_response_actual_function_names(examID, student),
     manualPoints=get_test_manual_grades(examID, student),
     scoreTotal=sum(scorePerQuestion),
-    scoreMax=sum(q["points"] for q in questions))
+    scoreMax=sum(q["points"] for q in questions),
+    detectedConstraints=get_test_response_detected_constraints(examID, student))
 
 # Student pages
 def exam_list():
@@ -82,6 +83,7 @@ def results():
     commentsPerQuestion,wholeTestComments=get_test_comments(examID, student)
     points=get_test_manual_grades(examID, student)
     scorePerQuestion=[sum(val) for val in points]
+    autograderPoints=get_test_auto_grades(examID, student)
     return flask.render_template("results.html",
     name = name,
     student = student,
@@ -94,5 +96,7 @@ def results():
     code_outputs=get_test_case_outputs(examID, student),
     function_names=get_test_response_actual_function_names(examID, student),
     points=points,
+    autograderPoints=autograderPoints,
     scoreTotal=sum(scorePerQuestion),
-    scoreMax=sum(q["points"] for q in questions))
+    scoreMax=sum(q["points"] for q in questions),
+    detectedConstraints=get_test_response_detected_constraints(examID, student))

@@ -21,40 +21,59 @@
 
 <!-- View Exam ---------------------------------------------------------------->
 		<div class="review">
-			<table style="width:100%;">
+			{% for qnum in range(questions|length) %}
+				{% set q = questions[qnum] %}
+				{% set hasConstraint = q.constrainttype is not none %}
+				{% set numTestCases = (q.testcaseoutputs|length) %}
+				{% set thingsToGrade = 2*numTestCases+1 %}
+				{% set numGrades = numTestCases+1 %}
+				{% if hasConstraint %}
+					{% set thingsToGrade = thingsToGrade+1 %}
+					{% set numGrades = numGrades+1 %}
+				{% endif %}
+				{% set pointsPerThing = (q.points/(thingsToGrade|float))|round(2) %}
+				<table style="width:100%">
 					<tr> <!-- headers -->
 						<th><h3>Question</h3></th>
 						<th><h3>Response</h3></th>
 						<th><h3>Expected</h3></th>
 						<th><h3>Actual</h3></th>
 						<th><h3>Max Points</h3></th>
-						<th><h3>Points</h3></th>
-						<th><h3>Comment</h3></th>
+						<th><h3>Autograder Points</h3></th>
+						<th><h3>Override Points</h3></th>
 					</tr>
-					{% for qnum in range(questions|length) %}
-						{% set q = questions[qnum] %}
-						{% set numTestCases = (questions[qnum].testcaseoutputs|length) %}
-						{% set pointsPerThing = (q.points/((2*numTestCases+1)|float))|round(2) %}
-						{% set numGrades = numTestCases+1 %}
-						<tr>
-							<td rowspan="{{numGrades}}">
-								<b>Title:</b> {{ q.title }}<br>
-								<b>Total Points:</b> {{ q.points }}<br>
-								<b>Prompt:</b><br> {{ q.description }}
-							</td>
+				<tr>
+					<td rowspan="{{numGrades}}">
+						<b>Title:</b> {{ q.title }}<br>
+						<b>Total Points:</b> {{ q.points }}<br>
+						<b>Prompt:</b><br> {{ q.description }}
+					</td>
 
-							<td rowspan="{{numGrades}}"><pre>{{ answers[qnum] }}</pre></td>
+					<td rowspan="{{numGrades}}"><pre>{{ answers[qnum] }}</pre></td>
 
-							<td>Function should be named: {{ q.functionname }}</td>
+					<td>Function should be named: {{ q.functionname }}</td>
 
-							<td>{{ function_names[qnum] }}</td>
+					<td>{{ function_names[qnum] }}</td>
 
-							<td>{{ pointsPerThing }}</td>
+					<td>{{ pointsPerThing }}</td>
 
-							<td>+{{ points[qnum][0] }}</td>
+					<td>+{{ autograderPoints[qnum][0] }}</td>
+					<td>+{{ points[qnum][0] }}</td>
 
-					<td rowspan="{{numGrades}}">{{ commentsPerQuestion[qnum] }}</td>
 					</tr>
+
+					{% if hasConstraint %}
+					<td>Constraint: {{ q.constrainttype }}</td>
+
+					<td>{{ detectedConstraints[qnum] }}</td>
+
+					<td>{{ pointsPerThing }}</td>
+
+					<td>+{{ autograderPoints[qnum][numTestCases+1] }}</td>
+
+					<td>+{{ points[qnum][numTestCases+1] }}</td>
+
+					{% endif %}
 
 					{% for tcnum in range(numTestCases) %}
 						<tr>
@@ -68,33 +87,43 @@
 								{% endif %}
 							</td>
 
-				<td>{{ pointsPerThing*2 }}</td>
+							<td>{{ pointsPerThing*2 }}</td>
 
-				<td>+{{ points[qnum][tcnum+1] }}</td>
+							<td>+{{ autograderPoints[qnum][tcnum+1] }}</td>
+							<td>+{{ points[qnum][tcnum+1] }}</td>
 
-			</tr>
+						</tr>
+
 					{% endfor %}
 
-			<td colspan="4" style=text-align:right;><b>Total:</b></td>
-			<td>{{ q.points }}</td>
-			<td>{{ (scorePerQuestion[qnum])|round(1) }}</td>
-					<td id="total-{{qnum}}"></td>
-					{% endfor %}
-			</table><br>
+					<td colspan="4" style=text-align:right;><b>Total:</b></td>
+					<td>{{ q.points }}</td>
+					<td>{{ (scorePerQuestion[qnum])|round(2) }}</td>
+					<td id="total-{{qnum}}"></td> <!-- q override total -->
 
-			<table>
+				</table><br>
 
-			<tr>
-				<th><h3>Overall Test Comments:</h3></th>
-				<th><h3>Score:</h3></th>
-			</tr>
+				<h3>Comments:</h3>
+				{{ commentsPerQuestion[qnum] }}<br><br><br><br>
+				{% endfor %}
 
-			<tr>
-				<td>{{ wholeTestComments }}</td>
-				<td> {{ (scoreTotal)|round(1) }} / {{ scoreMax }}</td>
-			</tr>
+					<table style="width:100%;">
 
-		</table><br>
+						<tr>
+							<th><h3>Final Score:</h3></th>
+							<th><h3>Overall Test Comments:</h3></th>
+						</tr>
+
+						<tr>
+							<td style="vertical-align:top;">
+								<b>Total:</b> {{ scoreMax }}<br>
+								<b>Autograder:</b> {{ (scoreTotal)|round(2) }} <br>
+								<b>Override:</b> <span id="overridePoints"></span> <!--exam override total -->
+							</td>
+							<td><textarea name="comments-on-whole-test" cols=100 rows=5>{{ wholeTestComments }}</textarea></td>
+						</tr>
+
+					</table><br>
 
 		<a href="/app?page=view_results"><button type="submit">Back to Exams</button></a><br><br>
 
