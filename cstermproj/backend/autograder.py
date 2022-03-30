@@ -37,7 +37,7 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 def grade_question(question_id, num_points, code):
 	function_name = get_question_function_name(question_id)
 	args, outputs = get_question_test_cases(question_id)
-	constraint = get_question_constraint(question_id)
+	constraint = get_question_constraint(question_id).lower()
 	has_constraint = (constraint is not None)
 	
 	detected_constraint = constraint
@@ -60,12 +60,12 @@ def grade_question(question_id, num_points, code):
 		constraint_matched = True
 		
 		for possible_constraint in ["for", "while"]:
-			if possible_constraint in constraint.lower():
-				if not constraint.lower() in code.lower():
+			if possible_constraint in constraint
+				if not possible_constraint in code.lower():
 					constraint_matched = False
 					break
 		
-		if constraint.lower() == "recursion":
+		if constraint == "recursion":
 			if code.lower().count(function_name) < 2:
 				constraint_matched = False
 		
