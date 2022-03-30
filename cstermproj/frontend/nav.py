@@ -9,25 +9,25 @@ def get_filters():
     category_filter = None
     difficulty_filter = None
     keyword_filter = None
-    
+
     if "category" in request.args:
         category_filter = request.args["category"]
-    
+
     if "difficulty" in request.args:
         difficulty_filter = request.args["difficulty"]
-    
+
     if "keywords" in request.args:
         keyword_filter = request.args["keywords"]
-    
+
     if category_filter is not None and category_filter.lower() == "none":
         category_filter = None
-    
+
     if difficulty_filter is not None and difficulty_filter.lower() == "none":
         difficulty_filter = None
-    
+
     if keyword_filter is not None and len(keyword_filter) == 0:
         keyword_filter = None
-    
+
     return { "title_or_desc_substring": keyword_filter, "category": category_filter, "difficulty": difficulty_filter }
 
 # Teacher pages
@@ -113,8 +113,9 @@ def results():
     questions = getquestionsintest(examID)
     commentsPerQuestion,wholeTestComments=get_test_comments(examID, student)
     points=get_test_manual_grades(examID, student)
-    scorePerQuestion=[sum(val) for val in points]
+    scorePerQuestionOverride=[sum(val) for val in points]
     autograderPoints=get_test_auto_grades(examID, student)
+    scorePerQuestionAuto=[sum(val) for val in autograderPoints]
     return flask.render_template("results.html",
     name = name,
     student = student,
@@ -122,12 +123,14 @@ def results():
     questions=questions,
     commentsPerQuestion=commentsPerQuestion,
     wholeTestComments=wholeTestComments,
-    scorePerQuestion=scorePerQuestion,
+    scorePerQuestion=scorePerQuestionAuto,
+    scorePerQuestionOverride=scorePerQuestionOverride,
     answers=getTestResponses(examID, student),
     code_outputs=get_test_case_outputs(examID, student),
     function_names=get_test_response_actual_function_names(examID, student),
     points=points,
     autograderPoints=autograderPoints,
-    scoreTotal=sum(scorePerQuestion),
+    scoreTotal=sum(scorePerQuestionAuto),
+    scoreTotalOverride=sum(scorePerQuestionOverride),
     scoreMax=sum(q["points"] for q in questions),
     detectedConstraints=get_test_response_detected_constraints(examID, student))
