@@ -60,7 +60,7 @@ def grade_question(question_id, num_points, code):
 		constraint_matched = True
 		
 		for possible_constraint in ["for", "while"]:
-			if possible_constraint in constraint
+			if possible_constraint in constraint:
 				if not possible_constraint in code.lower():
 					constraint_matched = False
 					break
