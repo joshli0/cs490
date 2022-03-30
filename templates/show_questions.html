@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel='stylesheet' href='https://fonts.googleapis.com/css?family=Rubik:400,700'>
+		<link rel='stylesheet' href="./style.css">
+	</head>
+	<body>
+<!-- Filter Questions  -------------------------------------------------------->
+		   <div class="greybox">
+
+		     <h3>Filter Questions</h3><br>
+					<form action="/app" method="GET">
+					<input type="hidden" name="page" value="show_questions" />
+
+		        <label for="category">Category:</label>
+		        <select name="category">
+							<option value="None">None</option>
+		          {% for c in categories %}
+		            <option value="{{ c }}">{{ c }}</option>
+		          {% endfor %}
+		        </select><br>
+		        <br>
+
+		        <label for="difficulty">Difficulty:</label>
+		        <select name="difficulty">
+						<option value="None">None</option>
+		          {% for d in difficulties %}
+		            <option value="{{ d }}">{{ d }}</option>
+		          {% endfor %}
+		        </select><br><br>
+
+						<label for="keywords">Keyword(s):</label>
+						<input type="text" name="keywords" style="width:150px"><br>
+						<br>
+
+						<button type="submit">Apply</button>
+
+					</form>
+				</div><br>
+<!-- Question Bank ------------------------------------------------------------>
+			  <h2>Question Bank</h2><br>
+				<!-- displaying table for each question in bank -->
+				<div class="greybox">
+ 				{% for q in questionBank %}
+					<table style="width:100%">
+	 					<colgroup>
+	 				  	<col span="1" style="width:150px";
+	 				  </colgroup>
+	 				  <tr>
+	 				  	<th>Title</th>
+	 				    <td>{{ q.title }}</td>
+	 				  </tr>
+
+	 				  <tr>
+	 				     <th>Description</th>
+	 				     <td>{{ q.description }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Category</th>
+	 				     <td>{{ q.category }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Difficulty</th>
+	 				     <td>{{ q.difficulty }}</td>
+	 				  </tr>
+	 				  <tr>
+	 				     <th>Test Cases</th>
+							 <td>
+								 <!-- test cases -->
+								 {% set args = q.testcaseargs %}
+								 {% set outputs = q.testcaseoutputs %}
+								 {% for i in range(args|length)%}
+								 		{{ q.functionname }}({{ args[i] }}) --> {{ outputs[i] }}<br>
+								 {% endfor %}
+						 </td>
+	 				  </tr>
+					 <br>
+ 				 </table>
+				 {% endfor %} <!-- end table values -->
+
+			 <br></div><br> <!-- end box -->
+	</body>
+</html>

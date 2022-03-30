@@ -6,11 +6,17 @@ from ..backend.questions import *
 from ..backend.tests import *
 
 # Teacher pages
+def show_questions():
+	return flask.render_template("show_questions.html",
+    categories=get_categories(),
+    difficulties=get_difficulties(),
+    questionBank=get_all_questions(),
+    questionid=get_question_ids())
+
 def manage_questions():
     return flask.render_template("manage_questions.html",
     categories=get_categories(),
     difficulties=get_difficulties(),
-    questionBank=get_all_questions(),
     questionid=get_question_ids())
 
 def manage_exams():

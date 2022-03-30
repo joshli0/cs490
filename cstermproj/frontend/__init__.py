@@ -29,6 +29,8 @@ def startup(flaskapp):
 				return grade_exams()
 			elif page == "review_exam":
 				return review_exam()
+			elif page == "show_questions":
+				return show_questions()
 		else:
 			if page == "exam_list":
 				return exam_list()
