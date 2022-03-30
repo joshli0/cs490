@@ -5,8 +5,7 @@ from ..middleend.testSend import *
 from ..backend.questions import *
 from ..backend.tests import *
 
-# Teacher pages
-def show_questions():
+def get_filters():
     category_filter = None
     difficulty_filter = None
     keyword_filter = None
@@ -29,10 +28,14 @@ def show_questions():
     if keyword_filter is not None and len(keyword_filter) == 0:
         keyword_filter = None
     
+    return { "title_or_desc_substring": keyword_filter, "category": category_filter, "difficulty": difficulty_filter }
+
+# Teacher pages
+def show_questions():
     return flask.render_template("show_questions.html",
     categories=get_categories(),
     difficulties=get_difficulties(),
-    questionBank=get_all_questions(title_or_desc_substring = keyword_filter, category = category_filter, difficulty = difficulty_filter),
+    questionBank=get_all_questions(**get_filters()),
     questionid=get_question_ids())
 
 def manage_questions():
@@ -55,7 +58,7 @@ def build_exam():
     difficulties=get_difficulties(),
     id=get_question_ids(),
     examQuestions=getquestionsintest(examID),
-    questionBank=getQuestionNotInTest(examID))
+    questionBank=getQuestionNotInTest(examID, **get_filters()))
 
 def grade_exams():
     return flask.render_template("grade_exams.html",
