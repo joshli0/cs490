@@ -252,8 +252,8 @@ def getquestionsintest(id):
     return questions
 
 #get question not in test
-def getQuestionNotInTest(id):
-    questions = get_all_questions()
+def getQuestionNotInTest(id, **filters):
+    questions = get_all_questions(**filters)
     exam_questions,_ = get_questions_and_points(id)
     exam_questions = exam_questions or []
     return [question for question in questions if question['id'] not in exam_questions]

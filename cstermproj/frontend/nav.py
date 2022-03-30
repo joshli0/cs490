@@ -5,12 +5,43 @@ from ..middleend.testSend import *
 from ..backend.questions import *
 from ..backend.tests import *
 
+def get_filters():
+    category_filter = None
+    difficulty_filter = None
+    keyword_filter = None
+    
+    if "category" in request.args:
+        category_filter = request.args["category"]
+    
+    if "difficulty" in request.args:
+        difficulty_filter = request.args["difficulty"]
+    
+    if "keywords" in request.args:
+        keyword_filter = request.args["keywords"]
+    
+    if category_filter is not None and category_filter.lower() == "none":
+        category_filter = None
+    
+    if difficulty_filter is not None and difficulty_filter.lower() == "none":
+        difficulty_filter = None
+    
+    if keyword_filter is not None and len(keyword_filter) == 0:
+        keyword_filter = None
+    
+    return { "title_or_desc_substring": keyword_filter, "category": category_filter, "difficulty": difficulty_filter }
+
 # Teacher pages
+def show_questions():
+    return flask.render_template("show_questions.html",
+    categories=get_categories(),
+    difficulties=get_difficulties(),
+    questionBank=get_all_questions(**get_filters()),
+    questionid=get_question_ids())
+
 def manage_questions():
     return flask.render_template("manage_questions.html",
     categories=get_categories(),
     difficulties=get_difficulties(),
-    questionBank=get_all_questions(),
     questionid=get_question_ids())
 
 def manage_exams():
@@ -27,7 +58,7 @@ def build_exam():
     difficulties=get_difficulties(),
     id=get_question_ids(),
     examQuestions=getquestionsintest(examID),
-    questionBank=getQuestionNotInTest(examID))
+    questionBank=getQuestionNotInTest(examID, **get_filters()))
 
 def grade_exams():
     return flask.render_template("grade_exams.html",
