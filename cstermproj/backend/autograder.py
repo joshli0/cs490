@@ -40,7 +40,7 @@ def grade_question(question_id, num_points, code):
 	constraint = get_question_constraint(question_id).lower()
 	has_constraint = (constraint is not None)
 	
-	detected_constraint = constraint
+	detected_constraint = constraint + " found"
 	real_outputs = []
 	
 	num_test_cases = len(args)
@@ -70,7 +70,7 @@ def grade_question(question_id, num_points, code):
 				constraint_matched = False
 		
 		if not constraint_matched:
-			detected_constraint = "Not found"
+			detected_constraint = constraint + " not found"
 			grades[-1] = 0
 	
 	for test_case_num in range(num_test_cases):
