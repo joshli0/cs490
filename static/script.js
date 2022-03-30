@@ -79,7 +79,7 @@ function updateQuestionPoints(qnum, shouldUpdateTotal) {
     total += parseFloat(elem.value);
     casenum += 1;
   }
-  document.getElementById("total-" + qnum).innerHTML = total;
+  document.getElementById("total-" + qnum).innerHTML = parseFloat(total.toFixed(2));
   if(shouldUpdateTotal){
     updateTotal();
   }
@@ -104,5 +104,5 @@ function updateTotal(){
     total += parseFloat(elem.innerHTML);
     qnum += 1;
   }
-  document.getElementById("overridePoints").innerHTML = total;
+  document.getElementById("overridePoints").innerHTML = parseFloat(total.toFixed(2));
 }
