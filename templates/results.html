@@ -99,7 +99,7 @@
 					<td colspan="4" style=text-align:right;><b>Total:</b></td>
 					<td>{{ q.points }}</td>
 					<td>{{ (scorePerQuestion[qnum])|round(2) }}</td>
-					<td>{{ (scorePerQuestionOverride[qnum])|round(2) }}</td>
+					<td>{{ (scorePerQuestionOverride[qnum])|round(1) }}</td>
 
 				</table><br>
 
@@ -118,7 +118,7 @@
 							<td style="vertical-align:top;">
 								<b>Total:</b> {{ scoreMax }}<br>
 								<b>Autograder:</b> {{ (scoreTotal)|round(2) }} <br>
-								<b>Override:</b> {{ (scoreTotalOverride)|round(2) }} <!--exam override total -->
+								<b>Override:</b> {{ (scoreTotalOverride)|round(1) }} <!--exam override total -->
 							</td>
 							<td><textarea name="comments-on-whole-test" cols=100 rows=5>{{ wholeTestComments }}</textarea></td>
 						</tr>
