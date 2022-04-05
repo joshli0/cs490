@@ -35,7 +35,7 @@
 						{% set numGrades = numGrades+1 %}
 					{% endif %}
 					{% set pointsPerThing = (q.points/(thingsToGrade|float))|round(2) %}
-					<table style="width:100%">
+					<table style="width:100%" class="greyBorder">
 						<tr> <!-- headers -->
 							<th><h3>Question</h3></th>
 							<th><h3>Response</h3></th>
@@ -107,11 +107,11 @@
 					</table><br>
 
 					<h3>Comments:</h3>
-					<textarea name="comment-{{ qnum }}" style="width:100%" rows=5>{{ commentsPerQuestion[qnum] }}</textarea><br><br>
+					<textarea name="comment-{{ qnum }}" style="width:100%; border: 1px solid black" rows=5>{{ commentsPerQuestion[qnum] }}</textarea><br><br><br>
 
 					{% endfor %}
 
-						<table style="width:100%;">
+						<table style="width:100%;" class="greyBorder">
 
 							<tr>
 								<th><h3>Final Score:</h3></th>

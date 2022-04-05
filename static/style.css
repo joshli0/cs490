@@ -231,6 +231,15 @@ table, th, td{
   position: absolute;
 }
 
+.examAns {
+  font-size: 16px;
+  border: 1px solid black;
+}
+
+.greyBorder {
+  background-color: #BEBEBE;
+}
+
 .bodypadding{
   padding-top: 100px;
 }

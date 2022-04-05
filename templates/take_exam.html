@@ -24,52 +24,52 @@
 		<form action="/submit_test_response?name_or_id={{ name }}" method="POST"> <!-- exam response -->
 			{% for i in range(examQuestions|length) %}
 				<div id="question-{{ i }}" style="display: none;">
-					<table class="viewExam" style="width: 100%;">
+					<table class="greyBorder" style="width: 100%;">
 						{% set q = (examQuestions[i]) %}
 							<tr>
 								<th style="width: 88%;"><h3>Question:</h3>{{ q.description }}</th>
 								<th style="width: 10%;"><h3>Point Value:</h3>{{ q.points }}</th>
 							</tr><td colspan="2">
 								<h3>Your code:</h3>
-								<textarea id="response-{{ i }}" name="response-{{ i }}" rows=8 cols=60 required></textarea>
+								<textarea id="response-{{ i }}" name="response-{{ i }}" class="examAns" rows=8 style="width:100%;" required></textarea>
 							</td></tr>
 					</table></br>
 				</div>
 			{% endfor %}
-			
-			<div style="width: 15%; display: inline-block; border: 1px solid black; background: white; margin-left: 4.5%; text-align: center; vertical-align: top;">
+
+			<div style="width: 15%; display: inline-block; border: 1px solid black; background: #BEBEBE; margin-left: 4.5%; text-align: center; vertical-align: top;">
 				<h3 style="text-align: center;">Questions:</h3>
 				{% for i in range(examQuestions|length) %}
 					<button type="button" onclick="showQuestion({{ i }})" style="margin-bottom: 0.5em; width: 75%;">Question {{ i + 1 }}</button>
 				{% endfor %}
 			</div><br>
-			
+
 			<button type="button" onclick="prevQuestion()"><</button><button type="button" onclick="nextQuestion()" style="float: right;">></button><br><br>
 			<button type="submit" id="responseSubmit" class="longButton">Submit Exam</button></br></br></br>
 		</form> <!-- end exam responses -->
-	
+
 	<script>
 		let maxQuestions = {{ examQuestions|length }};
 		let currQuestion = 0;
-		
+
 		function showQuestion(q) {
 			document.getElementById("question-" + currQuestion).style = "display: none;";
 			document.getElementById("question-" + q).style = "display: inline-block; width: 80%;";
 			currQuestion = q;
 		}
-		
+
 		function nextQuestion() {
 			if(currQuestion + 1 < maxQuestions) {
 				showQuestion(currQuestion + 1);
 			}
 		}
-		
+
 		function prevQuestion() {
 			if(currQuestion > 0) {
 				showQuestion(currQuestion - 1);
 			}
 		}
-		
+
 		showQuestion(currQuestion);
 	</script>
 	</div> <!-- end page box -->
