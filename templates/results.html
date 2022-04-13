@@ -57,8 +57,8 @@
 
 					<td>{{ pointsPerThing }}</td>
 
-					<td>+{{ autograderPoints[qnum][0] }}</td>
-					<td>+{{ points[qnum][0] }}</td>
+					<td>-{{ autograderPoints[qnum][0] }}</td>
+					<td>-{{ points[qnum][0] }}</td>
 
 					</tr>
 
@@ -69,9 +69,9 @@
 
 					<td>{{ pointsPerThing }}</td>
 
-					<td>+{{ autograderPoints[qnum][numTestCases+1] }}</td>
+					<td>-{{ autograderPoints[qnum][numTestCases+1] }}</td>
 
-					<td>+{{ points[qnum][numTestCases+1] }}</td>
+					<td>-{{ points[qnum][numTestCases+1] }}</td>
 
 					{% endif %}
 
@@ -89,8 +89,8 @@
 
 							<td>{{ pointsPerThing*2 }}</td>
 
-							<td>+{{ autograderPoints[qnum][tcnum+1] }}</td>
-							<td>+{{ points[qnum][tcnum+1] }}</td>
+							<td>-{{ autograderPoints[qnum][tcnum+1] }}</td>
+							<td>-{{ points[qnum][tcnum+1] }}</td>
 
 						</tr>
 
@@ -98,8 +98,8 @@
 
 					<td colspan="4" style=text-align:right;><b>Total:</b></td>
 					<td>{{ q.points }}</td>
-					<td>{{ (scorePerQuestion[qnum])|round(1) }}</td>
-					<td>{{ (scorePerQuestionOverride[qnum])|round(1) }}</td>
+					<td>{{ (q.points - scorePerQuestion[qnum])|round(1) }}</td>
+					<td>{{ (q.points - scorePerQuestionOverride[qnum])|round(1) }}</td>
 
 				</table><br>
 
@@ -117,8 +117,8 @@
 						<tr>
 							<td style="vertical-align:top;">
 								<b>Total:</b> {{ scoreMax }}<br>
-								<b>Autograder:</b> {{ (scoreTotal)|round(1) }} <br>
-								<b>Override:</b> {{ (scoreTotalOverride)|round(1) }} <!--exam override total -->
+								<b>Autograder:</b> {{ (scoreMax - scoreTotal)|round(1) }} <br>
+								<b>Override:</b> {{ (scoreMax - scoreTotalOverride)|round(1) }} <!--exam override total -->
 							</td>
 							<td><textarea name="comments-on-whole-test" cols=100 rows=5>{{ wholeTestComments }}</textarea></td>
 						</tr>

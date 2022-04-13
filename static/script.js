@@ -69,14 +69,14 @@ function applyFilter() {
 }
 
 function updateQuestionPoints(qnum, shouldUpdateTotal) {
-  let total = 0;
+  let total = parseFloat(document.getElementById("questionworth-" + qnum).innerText);
   let casenum = 0;
   while(true){
     let elem = document.getElementById("override-" + qnum + "-" + casenum)
     if(elem==null){
       break;
     }
-    total += parseFloat(elem.value);
+    total -= parseFloat(elem.value);
     casenum += 1;
   }
   document.getElementById("total-" + qnum).innerHTML = parseFloat(total.toFixed(1));

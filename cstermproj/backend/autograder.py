@@ -59,7 +59,7 @@ def grade_question(question_id, num_points, code):
 	fixed_code, function_name_actual, function_def_correct = check_function_definitions(code, function_name)
 	fixed_code = remove_non_function_code(fixed_code)
 	
-	if not function_def_correct:
+	if function_def_correct:
 		grades[0] = 0
 	
 	if has_constraint:
@@ -77,13 +77,14 @@ def grade_question(question_id, num_points, code):
 		
 		if not constraint_matched:
 			detected_constraint = constraint + " not found"
+		else:
 			grades[-1] = 0
 	
 	for test_case_num in range(num_test_cases):
 		output, success = run_test_case(fixed_code, function_name, args[test_case_num], outputs[test_case_num])
 		
 		real_outputs.append(output)
-		if not success:
+		if success:
 			grades[test_case_num + 1] = 0
 	
 	return grades, function_name_actual, real_outputs, detected_constraint
