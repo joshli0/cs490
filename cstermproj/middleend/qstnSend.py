@@ -16,6 +16,9 @@ def send(flaskapp):
             function_name = data['function_name']
             constraint = data['constraint']
             
+            if constraint == 'no-constraint':
+                constraint = None
+            
             test_case_args = []
             test_case_results = []
             for i in range (int(data['testcasecount'])):

@@ -37,10 +37,16 @@ def run_auto_grader(test_name_or_id, student_name_or_id):
 def grade_question(question_id, num_points, code):
 	function_name = get_question_function_name(question_id)
 	args, outputs = get_question_test_cases(question_id)
-	constraint = get_question_constraint(question_id).lower()
-	has_constraint = (constraint is not None)
+	constraint = get_question_constraint(question_id)
 	
-	detected_constraint = constraint + " found"
+	if constraint is not None:
+		constraint = constraint.lower()
+		detected_constraint = constraint + " found"
+		has_constraint = True
+	else:
+		detected_constraint = ""
+		has_constraint = False
+	
 	real_outputs = []
 	
 	num_test_cases = len(args)
