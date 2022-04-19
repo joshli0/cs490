@@ -121,7 +121,7 @@
 							<tr>
 								<td style="vertical-align:top;">
 									<b>Total:</b> {{ scoreMax }}<br>
-									<b>Autograder:</b> {{ (scoreTotal)|round(1) }} <br>
+									<b>Autograder:</b> {{ (scoreMax - scoreTotal)|round(1) }}<br>
 									<b>Override:</b> <span id="overridePoints"></span>
 								</td>
 								<td><textarea name="comments-on-whole-test" cols=100 rows=5>{{ wholeTestComments }}</textarea></td>
